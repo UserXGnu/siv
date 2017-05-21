@@ -1,0 +1,76 @@
+PUBLIC asm_fnc1
+PUBLIC asm_fnc2
+PUBLIC asm_fnc3
+PUBLIC asm_fnc4
+
+; @note:
+;	 once that jwasm doesn't have support for 
+;	 System V ABI calling convention
+;	 I created this macro to adjust 
+;	 the parameters for our procedures.
+args_assign MACRO 
+	mov dword ptr [rbp+20h], edx
+	mov dword ptr [rbp+18h], esi
+	mov qword ptr [rbp+10h], rdi
+ENDM
+
+; prototypes
+asm_fnc1 proto c pixels: ptr byte, lns: dword, cols: dword 
+asm_fnc2 proto c pixels: ptr byte, lns: dword, cols: dword 
+asm_fnc3 proto c pixels: ptr byte, lns: dword, cols: dword 
+asm_fnc4 proto c pixels: ptr byte, lns: dword, cols: dword 
+
+.data
+	channels DWORD 3
+
+
+.code
+asm_fnc1 proc c uses rbx pixels: ptr byte, lns: dword, cols: dword
+ 	args_assign  
+
+	mov   	eax, cols
+	mul 	lns
+	jo 		fim
+
+	mov 	rbx, rax
+	xor 	ecx, ecx
+	mov 	rdi, pixels
+	.while (ecx < ebx)
+		movzx 	eax, byte ptr [rdi + rcx]      ; red channel
+		movzx 	edx, byte ptr [rdi + rcx + 1]  ; green channel
+		add 	eax, edx
+		movzx 	edx, byte ptr [rdi + rcx + 2]  ; blue channel
+		add 	eax, edx
+		xor 	rdx, rdx
+		div 	channels
+
+		mov 	byte ptr [rdi + rcx], al
+		mov 	byte ptr [rdi + rcx + 1], al
+		mov 	byte ptr [rdi + rcx + 2], al
+		add 	ecx, 03h
+	.endw
+
+	fim:
+		xor 	eax, eax
+		ret
+asm_fnc1 endp
+
+asm_fnc2 proc c pixels: ptr byte, lns: dword, cols: dword 
+ 	args_assign  
+ 	; TODO ...
+	ret
+asm_fnc2 endp
+
+asm_fnc3 proc c pixels: ptr byte, lns: dword, cols: dword 
+ 	args_assign  
+	; TODO ...
+	ret
+asm_fnc3 endp
+
+asm_fnc4 proc c pixels: ptr byte, lns: dword, cols: dword 
+ 	args_assign  
+	; TODO ...
+	ret 
+asm_fnc4 endp
+
+END

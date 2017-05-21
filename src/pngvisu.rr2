@@ -1,0 +1,3 @@
+#!/usr/bin/env rarum2 
+program=main
+stdio=/dev/pts/2
