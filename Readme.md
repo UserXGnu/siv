@@ -18,7 +18,7 @@ properly, run:
 
 	$ ./dependencies.sh 	#At the root of the project file system.
  
-It will detect whether you are running archlinux or ubuntu, and automatically
+It will detect whether you are running archlinux, debian or ubuntu, and automatically
 choose by then, how to install all required dependencies.
 
 
