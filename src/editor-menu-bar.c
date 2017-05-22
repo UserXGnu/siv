@@ -24,15 +24,17 @@ struct _EditorMenuBarPrivate {
 	 GtkWidget * ExitItem;
 	 GtkWidget * AboutItem;
 	 
-	 GtkWidget * CppFunc1;
-	 GtkWidget * CppFunc2;
-	 GtkWidget * CppFunc3;
-	 GtkWidget * CppFunc4;
+	 GtkWidget * CFunc1;
+	 GtkWidget * CFunc2;
+	 GtkWidget * CFunc3;
+	 GtkWidget * CFunc4;
+	 GtkWidget * CFunc5;
 
 	 GtkWidget * AsmFunc1;
 	 GtkWidget * AsmFunc2;
 	 GtkWidget * AsmFunc3;
 	 GtkWidget * AsmFunc4;
+	 GtkWidget * AsmFunc5;
 
 	 GtkWidget * LittleTrick;
 	 
@@ -56,23 +58,28 @@ editor_menubar_get_openitem (EditorMenuBar * self) {
 }
 
 GtkWidget *
-editor_menubar_get_cppf1 (EditorMenuBar * self) {
-	return EDITOR_MENU_BAR_GET_PRIVATE (self)->CppFunc1;
+editor_menubar_get_cf1 (EditorMenuBar * self) {
+	return EDITOR_MENU_BAR_GET_PRIVATE (self)->CFunc1;
 }
 
 GtkWidget *
-editor_menubar_get_cppf2 (EditorMenuBar * self) {
-	return EDITOR_MENU_BAR_GET_PRIVATE (self)->CppFunc2;
+editor_menubar_get_cf2 (EditorMenuBar * self) {
+	return EDITOR_MENU_BAR_GET_PRIVATE (self)->CFunc2;
 }
 
 GtkWidget *
-editor_menubar_get_cppf3 (EditorMenuBar * self) {
-	return EDITOR_MENU_BAR_GET_PRIVATE (self)->CppFunc3;
+editor_menubar_get_cf3 (EditorMenuBar * self) {
+	return EDITOR_MENU_BAR_GET_PRIVATE (self)->CFunc3;
 }
 
 GtkWidget *
-editor_menubar_get_cppf4 (EditorMenuBar * self) {
-	return EDITOR_MENU_BAR_GET_PRIVATE (self)->CppFunc4;
+editor_menubar_get_cf5 (EditorMenuBar * self) {
+	return EDITOR_MENU_BAR_GET_PRIVATE (self)->CFunc5;
+}
+
+GtkWidget *
+editor_menubar_get_cf4 (EditorMenuBar * self) {
+	return EDITOR_MENU_BAR_GET_PRIVATE (self)->CFunc4;
 }
 
 GtkWidget *
@@ -94,6 +101,12 @@ editor_menubar_get_asm3 (EditorMenuBar * self) {
 GtkWidget *
 editor_menubar_get_asm4 (EditorMenuBar * self) {
 	return EDITOR_MENU_BAR_GET_PRIVATE (self)->AsmFunc4;
+}
+
+
+GtkWidget *
+editor_menubar_get_asm5 (EditorMenuBar * self) {
+	return EDITOR_MENU_BAR_GET_PRIVATE (self)->AsmFunc5;
 }
 
 
@@ -122,20 +135,22 @@ editor_menubar_init (EditorMenuBar * self) {
 	gtk_menu_shell_append (GTK_MENU_SHELL (self), MenuItem);
 	
 	Menu = gtk_menu_new ();
-	MenuItem = gtk_menu_item_new_with_mnemonic ("_C++");
+	MenuItem = gtk_menu_item_new_with_mnemonic ("_C");
 	
-	self->priv->CppFunc1 = gtk_menu_item_new_with_mnemonic ("func_1_");
-	self->priv->CppFunc2 = gtk_menu_item_new_with_mnemonic ("func_2_");
-	self->priv->CppFunc3 = gtk_menu_item_new_with_mnemonic ("func_3_");
-	self->priv->CppFunc4 = gtk_menu_item_new_with_mnemonic ("func_4_");
+	self->priv->CFunc1 = gtk_menu_item_new_with_mnemonic ("func_1_");
+	self->priv->CFunc2 = gtk_menu_item_new_with_mnemonic ("func_2_");
+	self->priv->CFunc3 = gtk_menu_item_new_with_mnemonic ("func_3_");
+	self->priv->CFunc4 = gtk_menu_item_new_with_mnemonic ("func_4_");
+	self->priv->CFunc5 = gtk_menu_item_new_with_mnemonic ("func_5_");
 
 
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (MenuItem), Menu);
 
-	gtk_menu_shell_append (GTK_MENU_SHELL (Menu), self->priv->CppFunc1);
-	gtk_menu_shell_append (GTK_MENU_SHELL (Menu), self->priv->CppFunc2);
-	gtk_menu_shell_append (GTK_MENU_SHELL (Menu), self->priv->CppFunc3);
-	gtk_menu_shell_append (GTK_MENU_SHELL (Menu), self->priv->CppFunc4);
+	gtk_menu_shell_append (GTK_MENU_SHELL (Menu), self->priv->CFunc1);
+	gtk_menu_shell_append (GTK_MENU_SHELL (Menu), self->priv->CFunc2);
+	gtk_menu_shell_append (GTK_MENU_SHELL (Menu), self->priv->CFunc3);
+	gtk_menu_shell_append (GTK_MENU_SHELL (Menu), self->priv->CFunc4);
+	gtk_menu_shell_append (GTK_MENU_SHELL (Menu), self->priv->CFunc5);
 
 	gtk_menu_shell_append (GTK_MENU_SHELL (self), MenuItem);
 
@@ -146,6 +161,7 @@ editor_menubar_init (EditorMenuBar * self) {
 	self->priv->AsmFunc2 = gtk_menu_item_new_with_mnemonic ("func_2_");
 	self->priv->AsmFunc3 = gtk_menu_item_new_with_mnemonic ("func_3_");
 	self->priv->AsmFunc4 = gtk_menu_item_new_with_mnemonic ("func_4_");
+	self->priv->AsmFunc5 = gtk_menu_item_new_with_mnemonic ("func_5_");
 
 
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (MenuItem), Menu);
@@ -154,11 +170,12 @@ editor_menubar_init (EditorMenuBar * self) {
 	gtk_menu_shell_append (GTK_MENU_SHELL (Menu), self->priv->AsmFunc2);
 	gtk_menu_shell_append (GTK_MENU_SHELL (Menu), self->priv->AsmFunc3);
 	gtk_menu_shell_append (GTK_MENU_SHELL (Menu), self->priv->AsmFunc4);
+	gtk_menu_shell_append (GTK_MENU_SHELL (Menu), self->priv->AsmFunc5);
 
 	gtk_menu_shell_append (GTK_MENU_SHELL (self), MenuItem);
 
 	Menu = gtk_menu_new ();
-	self->priv->LittleTrick = gtk_menu_item_new_with_mnemonic ("LittleTrick");
+	self->priv->LittleTrick = gtk_menu_item_new_with_mnemonic ("_LittleTrick");
 
 	gtk_menu_shell_append (GTK_MENU_SHELL (self), self->priv->LittleTrick);
 	

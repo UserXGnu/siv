@@ -128,9 +128,8 @@ editor_controller_about_dialog_callback (GtkWidget * widget, gpointer data) {
 	 * 									C CALLBACKS DEV									*
 	 ************************************************************************************/
 void
-editor_controller_cppfunc1_callback (GtkWidget * self, gpointer data) {
+editor_controller_cfunc1_callback (GtkWidget * self, gpointer data) {
 	GtkWidget * window;
-	//GtkWidget * menubar;
 	GtkWidget * image;
 	GdkPixbuf * pb;
 	gint ht;
@@ -149,10 +148,16 @@ editor_controller_cppfunc1_callback (GtkWidget * self, gpointer data) {
 	ht = gdk_pixbuf_get_height (pb);
 	pixel = gdk_pixbuf_get_pixels (pb);
 
-
 	for (gint i = 0; i < ht; i++) {
 		for (gint j = 0; j < rowstride; j = j + bpp) {
-			pixel [i*rowstride + j+0] = 0;
+			guint media = RED_LEVEL;
+			media += GREEN_LEVEL;
+			media += BLUE_LEVEL;
+			media = media/3;
+
+			RED_LEVEL = media;
+			GREEN_LEVEL = media;
+			BLUE_LEVEL = media;
 
 		}
 	}
@@ -166,7 +171,7 @@ editor_controller_cppfunc1_callback (GtkWidget * self, gpointer data) {
 }
 
 void
-editor_controller_cppfunc2_callback (GtkWidget * self, gpointer data) {
+editor_controller_cfunc2_callback (GtkWidget * self, gpointer data) {
 	GtkWidget * window;
 	GtkWidget * image;
 	GdkPixbuf * pb;
@@ -208,7 +213,7 @@ editor_controller_cppfunc2_callback (GtkWidget * self, gpointer data) {
 
 #define LEVEL 	50
 void
-editor_controller_cppfunc3_callback (GtkWidget * self, gpointer data) {
+editor_controller_cfunc3_callback (GtkWidget * self, gpointer data) {
 	GtkWidget * window;
 	GtkWidget * image;
 	GdkPixbuf * pb;
@@ -247,7 +252,45 @@ editor_controller_cppfunc3_callback (GtkWidget * self, gpointer data) {
 	
 }
 
+void
+editor_controller_cfunc4_callback (GtkWidget * self, gpointer data) {
+	GtkWidget * window;
+	GtkWidget * image;
+	GdkPixbuf * pb;
+	gint ht;
+	gint wt;
+	gint rowstride;
+	gint bpp;
+	guchar * pixel;
 
+	window = data;
+	image = editor_window_get_image (EDITOR_WINDOW (window));
+	if (image == NULL) 
+		return;
+	
+	pb = gtk_image_get_pixbuf (GTK_IMAGE (image));
+	
+	//bpp = gdk_pixbuf_get_bits_per_sample (pb);
+	bpp = gdk_pixbuf_get_n_channels (pb);
+	ht = gdk_pixbuf_get_height (pb);
+	pixel = gdk_pixbuf_get_pixels (pb);
+	rowstride = gdk_pixbuf_get_rowstride (pb);
+	gint level;
+	for (gint i = 0; i < ht; i++) {
+		for (gint j = 0; j < rowstride; j = j + bpp) {
+			level = RED_LEVEL + LEVEL;
+			RED_LEVEL = (level > 255) ? 0 : level;
+
+		}
+	}
+	
+	gtk_image_set_from_pixbuf (GTK_IMAGE (image), pb);
+	
+
+	gtk_widget_hide (editor_window_get_box (EDITOR_WINDOW (window) ) );
+	gtk_widget_show_all (editor_window_get_box (EDITOR_WINDOW (window) ) );
+	
+}
 	/************************************************************************************
 	 * 									ASM CALLBACKS DEV								*
 	 ************************************************************************************/
@@ -424,25 +467,25 @@ editor_controller_connect_signals (EditorController * self) {
 	 * 									C CALLBACKS 									*
 	 ************************************************************************************/
 
-	g_signal_connect (editor_menubar_get_cppf1 (EDITOR_MENU_BAR (MenuBar)),
+	g_signal_connect (editor_menubar_get_cf1 (EDITOR_MENU_BAR (MenuBar)),
 	                  "activate",
-	                  G_CALLBACK ( editor_controller_cppfunc1_callback ),
+	                  G_CALLBACK ( editor_controller_cfunc1_callback ),
 	                  window);
 	
-	g_signal_connect (editor_menubar_get_cppf2 (EDITOR_MENU_BAR (MenuBar)),
+	g_signal_connect (editor_menubar_get_cf2 (EDITOR_MENU_BAR (MenuBar)),
 	                  "activate",
-	                  G_CALLBACK ( editor_controller_cppfunc2_callback ),
+	                  G_CALLBACK ( editor_controller_cfunc2_callback ),
 	                  window);                                           
 	
-	g_signal_connect (editor_menubar_get_cppf3 (EDITOR_MENU_BAR (MenuBar)),
+	g_signal_connect (editor_menubar_get_cf3 (EDITOR_MENU_BAR (MenuBar)),
 	                  "activate",
-	                  G_CALLBACK ( editor_controller_cppfunc3_callback ),
+	                  G_CALLBACK ( editor_controller_cfunc3_callback ),
 	                  window);
 	
-/*	g_signal_connect (editor_menubar_get_cppf4 (EDITOR_MENU_BAR (MenuBar)),
+	g_signal_connect (editor_menubar_get_cf4 (EDITOR_MENU_BAR (MenuBar)),
 	                  "activate",
-	                  G_CALLBACK (editor_controller_cppfunc4_callback ),
-	                  window);    */
+	                  G_CALLBACK (editor_controller_cfunc4_callback ),
+	                  window);    
 	
 	/************************************************************************************
 	 * 									Asm callbacks 									*

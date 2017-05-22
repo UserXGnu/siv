@@ -54,10 +54,10 @@ GtkWidget * editor_menubar_get_openitem (EditorMenuBar * self);
 GtkWidget * editor_menubar_get_exititem (EditorMenuBar * self);
 GtkWidget * editor_menubar_get_aboutitem (EditorMenuBar * self);
 
-GtkWidget * editor_menubar_get_cppf1 (EditorMenuBar * self);
-GtkWidget * editor_menubar_get_cppf2 (EditorMenuBar * self);
-GtkWidget * editor_menubar_get_cppf3 (EditorMenuBar * self);
-GtkWidget * editor_menubar_get_cppf4 (EditorMenuBar * self);
+GtkWidget * editor_menubar_get_cf1 (EditorMenuBar * self);
+GtkWidget * editor_menubar_get_cf2 (EditorMenuBar * self);
+GtkWidget * editor_menubar_get_cf3 (EditorMenuBar * self);
+GtkWidget * editor_menubar_get_cf4 (EditorMenuBar * self);
 
 GtkWidget * editor_menubar_get_asm1 (EditorMenuBar * self);
 GtkWidget * editor_menubar_get_asm2 (EditorMenuBar * self);
