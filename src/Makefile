@@ -21,7 +21,9 @@ GAS_FILE=asm_fnc.s
 ASM_OBJ=asm_fnc.o
 OBJ_FILES=$(ASM_OBJ) editor-menu-bar.o editor-window.o editor-controller.o
 
-all:libs_masm86
+all: masm86
+
+masm86:libs_masm86
 	$(CC) $(OBJ_FILES) $(MAIN) $(CFLAG) $(EXEC) $(PKGCONFIG) 
 
 masm:libs_masm

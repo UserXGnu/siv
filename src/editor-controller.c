@@ -134,7 +134,6 @@ editor_controller_cppfunc1_callback (GtkWidget * self, gpointer data) {
 	GtkWidget * image;
 	GdkPixbuf * pb;
 	gint ht;
-	gint wt;
 	gint rowstride;
 	gint bpp;
 	guchar * pixel;
@@ -145,14 +144,11 @@ editor_controller_cppfunc1_callback (GtkWidget * self, gpointer data) {
 		return;
 	
 	pb = gtk_image_get_pixbuf (GTK_IMAGE (image));
-	
-	bpp = gdk_pixbuf_get_bits_per_sample (pb);
-	bpp = 3;
+	rowstride = gdk_pixbuf_get_rowstride (pb);
+	bpp = gdk_pixbuf_get_n_channels (pb);
 	ht = gdk_pixbuf_get_height (pb);
-	wt = gdk_pixbuf_get_width (pb);
 	pixel = gdk_pixbuf_get_pixels (pb);
 
-	rowstride = wt*bpp;
 
 	for (gint i = 0; i < ht; i++) {
 		for (gint j = 0; j < rowstride; j = j + bpp) {
@@ -175,7 +171,6 @@ editor_controller_cppfunc2_callback (GtkWidget * self, gpointer data) {
 	GtkWidget * image;
 	GdkPixbuf * pb;
 	gint ht;
-	gint wt;
 	gint rowstride;
 	gint bpp;
 	guchar * pixel;
@@ -189,7 +184,6 @@ editor_controller_cppfunc2_callback (GtkWidget * self, gpointer data) {
 	
 	bpp = gdk_pixbuf_get_n_channels (pb);
 	ht = gdk_pixbuf_get_height (pb);
-	wt = gdk_pixbuf_get_width (pb);
 	pixel = gdk_pixbuf_get_pixels (pb);
 	rowstride = gdk_pixbuf_get_rowstride (pb);
 	gint color;
@@ -232,12 +226,11 @@ editor_controller_cppfunc3_callback (GtkWidget * self, gpointer data) {
 	pb = gtk_image_get_pixbuf (GTK_IMAGE (image));
 	
 	//bpp = gdk_pixbuf_get_bits_per_sample (pb);
-	bpp = 3;
+	bpp = gdk_pixbuf_get_n_channels (pb);
 	ht = gdk_pixbuf_get_height (pb);
-	wt = gdk_pixbuf_get_width (pb);
 	pixel = gdk_pixbuf_get_pixels (pb);
-	rowstride = wt*bpp;
-	int level;
+	rowstride = gdk_pixbuf_get_rowstride (pb);
+	gint level;
 	for (gint i = 0; i < ht; i++) {
 		for (gint j = 0; j < rowstride; j = j + bpp) {
 			level = RED_LEVEL + LEVEL;
@@ -312,7 +305,6 @@ editor_controller_asmfunc2_callback (GtkWidget * self, gpointer data) {
 	pb = gtk_image_get_pixbuf (GTK_IMAGE (image));
 	
 	ht = gdk_pixbuf_get_height (pb);
-	wt = gdk_pixbuf_get_width (pb);
 	pixel = gdk_pixbuf_get_pixels (pb);
 	rowstride = gdk_pixbuf_get_rowstride (pb);
 	
@@ -346,7 +338,6 @@ editor_controller_asmfunc3_callback (GtkWidget * self, gpointer data) {
 	pb = gtk_image_get_pixbuf (GTK_IMAGE (image));
 	
 	ht = gdk_pixbuf_get_height (pb);
-	wt = gdk_pixbuf_get_width (pb);
 	pixel = gdk_pixbuf_get_pixels (pb);
 	rowstride = gdk_pixbuf_get_rowstride (pb);
 	
@@ -381,7 +372,6 @@ editor_controller_asmfunc4_callback (GtkWidget * self, gpointer data) {
 	pb = gtk_image_get_pixbuf (GTK_IMAGE (image));
 	
 	ht = gdk_pixbuf_get_height (pb);
-	wt = gdk_pixbuf_get_width (pb);
 	pixel = gdk_pixbuf_get_pixels (pb);
 	rowstride = gdk_pixbuf_get_rowstride (pb);
 	

@@ -1,7 +1,9 @@
 SRC=src/
 
-all: 
-	make -C $(SRC) all
+all:masm86
+
+masm86:
+	make -C $(SRC) masm86
 
 masm: 
 	make -C $(SRC) masm
