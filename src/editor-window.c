@@ -65,6 +65,7 @@ editor_window_init (EditorWindow * self) {
 	gtk_window_set_title (GTK_WINDOW (self), "SIMPLE PNG EDITOR");
 	gtk_window_set_default_size (GTK_WINDOW (self), 640, 480);
 	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
+	gtk_widget_set_size_request (GTK_WIDGET (self), 640, 480);
 	gtk_window_set_position (GTK_WINDOW (self), GTK_WIN_POS_CENTER_ALWAYS);
 	
 	priv->MenuBar = editor_menubar_new ();
