@@ -28,8 +28,10 @@ extern void asm_fnc1 (guchar * pixels, int ht, int rowstride);
 extern void asm_fnc2 (guchar * pixles, int ht, int rowstride);
 extern void asm_fnc3 (guchar * pixles, int ht, int rowstride);
 extern void asm_fnc4 (guchar * pixles, int ht, int rowstride);
+extern void asm_fnc5 (guchar * pixles, int ht, int rowstride);
 
 struct _EditorControllerPrivate {
+	gboolean 	startup;
 	GtkWidget * Window;
 };
 
@@ -45,9 +47,10 @@ editor_controller_open_callback (GtkWidget * self, gpointer data) {
 	gint resp;
 	gchar * filename;
 	GtkWidget * img;
-
+	GtkWidget * window = editor_controller_get_window (EDITOR_CONTROLLER (data));
+	EditorControllerPrivate * priv = EDITOR_CONTROLLER_GET_PRIVATE (EDITOR_CONTROLLER (data));
 	dialog = gtk_file_chooser_dialog_new ("PNG Editor - Open Dialog",
-	                                      GTK_WINDOW (data),
+	                                      GTK_WINDOW (window),
 	                                      GTK_FILE_CHOOSER_ACTION_OPEN,
 	                                      "Cancel", GTK_RESPONSE_CANCEL,
 	                                      "Open", GTK_RESPONSE_ACCEPT,
@@ -69,13 +72,13 @@ editor_controller_open_callback (GtkWidget * self, gpointer data) {
 	GdkPixbuf * pb = gdk_pixbuf_new_from_file_at_scale (filename, 640, -1, TRUE, NULL);
 	img = gtk_image_new_from_pixbuf (pb);
 	if (filename) {
-		editor_window_set_image (EDITOR_WINDOW (data), img);
-		gtk_widget_hide (GTK_WIDGET (data));
-		gtk_widget_show_all (GTK_WIDGET (data));
+		editor_window_set_image (EDITOR_WINDOW (window), img);
+		gtk_widget_hide (GTK_WIDGET (window));
+		gtk_widget_show_all (GTK_WIDGET (window));
 		g_free (filename);
 	}
 	gtk_widget_destroy (dialog);
-	
+	priv->startup = FALSE;
 }
 
 void 
@@ -106,16 +109,17 @@ editor_controller_about_dialog_callback (GtkWidget * widget, gpointer data) {
 	gtk_about_dialog_set_license (GTK_ABOUT_DIALOG (dialog), LICENSE);
 #endif 
 	
-	pixbuf = gdk_pixbuf_new_from_file_at_scale ("resources/gnu_headshadow.png", 
+	pixbuf = gdk_pixbuf_new_from_file_at_scale (EDITOR_ABOUT_IMAGE, 
 												480, 640,
 												TRUE, &err);
 	if (pixbuf == NULL) {
 			g_print("[SIMPLE-IMAGE-VIEWER] Warning: %s\n", err->message);
-		pixbuf = gdk_pixbuf_new_from_file ("/usr/share/siv_image/gnu_headshadow.png", &err);
+		pixbuf = gdk_pixbuf_new_from_file (EDITOR_ALT_ABOUT_IMAGE, &err);
 		if (pixbuf == NULL) {
 			g_print("[SIMPLE-IMAGE-VIEWER] Warning: %s\n", err->message);
 		}
 	}
+	
 	gtk_about_dialog_set_logo (GTK_ABOUT_DIALOG (dialog), pixbuf);
 	g_object_unref (pixbuf);
 	pixbuf = NULL;
@@ -138,10 +142,13 @@ editor_controller_cfunc1_callback (GtkWidget * self, gpointer data) {
 	guchar * pixel;
 	window = data;
 
-	image = editor_window_get_image (EDITOR_WINDOW (window));
-	if (image == NULL) 
+	EditorControllerPrivate * priv = EDITOR_CONTROLLER_GET_PRIVATE (EDITOR_CONTROLLER (data));
+	if (priv->startup == TRUE)
 		return;
-	
+
+	window = editor_controller_get_window (EDITOR_CONTROLLER (data));
+	image = editor_window_get_image (EDITOR_WINDOW (window));
+
 	pb = gtk_image_get_pixbuf (GTK_IMAGE (image));
 	rowstride = gdk_pixbuf_get_rowstride (pb);
 	bpp = gdk_pixbuf_get_n_channels (pb);
@@ -180,10 +187,12 @@ editor_controller_cfunc2_callback (GtkWidget * self, gpointer data) {
 	gint bpp;
 	guchar * pixel;
 
-	window = data;
-	image = editor_window_get_image (EDITOR_WINDOW (window));
-	if (image == NULL) 
+	EditorControllerPrivate * priv = EDITOR_CONTROLLER_GET_PRIVATE (EDITOR_CONTROLLER (data));
+	if (priv->startup == TRUE)
 		return;
+
+	window = editor_controller_get_window (EDITOR_CONTROLLER (data));
+	image = editor_window_get_image (EDITOR_WINDOW (window));
 	
 	pb = gtk_image_get_pixbuf (GTK_IMAGE (image));
 	
@@ -223,14 +232,15 @@ editor_controller_cfunc3_callback (GtkWidget * self, gpointer data) {
 	gint bpp;
 	guchar * pixel;
 
-	window = data;
-	image = editor_window_get_image (EDITOR_WINDOW (window));
-	if (image == NULL) 
+	EditorControllerPrivate * priv = EDITOR_CONTROLLER_GET_PRIVATE (EDITOR_CONTROLLER (data));
+	if (priv->startup == TRUE)
 		return;
+
+	window = editor_controller_get_window (EDITOR_CONTROLLER (data));
+	image = editor_window_get_image (EDITOR_WINDOW (window));
 	
 	pb = gtk_image_get_pixbuf (GTK_IMAGE (image));
 	
-	//bpp = gdk_pixbuf_get_bits_per_sample (pb);
 	bpp = gdk_pixbuf_get_n_channels (pb);
 	ht = gdk_pixbuf_get_height (pb);
 	pixel = gdk_pixbuf_get_pixels (pb);
@@ -263,11 +273,55 @@ editor_controller_cfunc4_callback (GtkWidget * self, gpointer data) {
 	gint bpp;
 	guchar * pixel;
 
-	window = data;
-	image = editor_window_get_image (EDITOR_WINDOW (window));
-	if (image == NULL) 
+	EditorControllerPrivate * priv = EDITOR_CONTROLLER_GET_PRIVATE (EDITOR_CONTROLLER (data));
+	if (priv->startup == TRUE)
 		return;
+
+	window = editor_controller_get_window (EDITOR_CONTROLLER (window));
+	image = editor_window_get_image (EDITOR_WINDOW (window));
+
+	pb = gtk_image_get_pixbuf (GTK_IMAGE (image));
 	
+	//bpp = gdk_pixbuf_get_bits_per_sample (pb);
+	bpp = gdk_pixbuf_get_n_channels (pb);
+	ht = gdk_pixbuf_get_height (pb);
+	pixel = gdk_pixbuf_get_pixels (pb);
+	rowstride = gdk_pixbuf_get_rowstride (pb);
+	gint level;
+	for (gint i = 0; i < ht; i++) {
+		for (gint j = 0; j < rowstride; j = j + bpp) {
+			level = RED_LEVEL + LEVEL;
+			RED_LEVEL = (level > 255) ? 0 : level;
+
+		}
+	}
+	
+	gtk_image_set_from_pixbuf (GTK_IMAGE (image), pb);
+	
+
+	gtk_widget_hide (editor_window_get_box (EDITOR_WINDOW (window) ) );
+	gtk_widget_show_all (editor_window_get_box (EDITOR_WINDOW (window) ) );
+	
+}
+
+void
+editor_controller_cfunc5_callback (GtkWidget * self, gpointer data) {
+	GtkWidget * window;
+	GtkWidget * image;
+	GdkPixbuf * pb;
+	gint ht;
+	gint wt;
+	gint rowstride;
+	gint bpp;
+	guchar * pixel;
+
+	EditorControllerPrivate * priv = EDITOR_CONTROLLER_GET_PRIVATE (EDITOR_CONTROLLER (data));
+	if (priv->startup == TRUE)
+		return;
+
+	window = editor_controller_get_window (EDITOR_CONTROLLER (window));
+	image = editor_window_get_image (EDITOR_WINDOW (window));
+
 	pb = gtk_image_get_pixbuf (GTK_IMAGE (image));
 	
 	//bpp = gdk_pixbuf_get_bits_per_sample (pb);
@@ -306,10 +360,13 @@ editor_controller_asmfunc1_callback (GtkWidget * self, gpointer data) {
 	gint chans;
 	guchar * pixel;
 
-	window = data;
-	image = editor_window_get_image (EDITOR_WINDOW (window));
-	if (image == NULL) 
+	EditorControllerPrivate * priv = EDITOR_CONTROLLER_GET_PRIVATE (EDITOR_CONTROLLER (data));
+	if (priv->startup == TRUE)
 		return;
+
+	window = editor_controller_get_window (EDITOR_CONTROLLER (data));
+	image = editor_window_get_image (EDITOR_WINDOW (window));
+
 	
 	pb = gtk_image_get_pixbuf (GTK_IMAGE (image));
 	
@@ -340,11 +397,13 @@ editor_controller_asmfunc2_callback (GtkWidget * self, gpointer data) {
 	gint chans;
 	guchar * pixel;
 
-	window = data;
-	image = editor_window_get_image (EDITOR_WINDOW (window));
-	if (image == NULL) 
+	EditorControllerPrivate * priv = EDITOR_CONTROLLER_GET_PRIVATE (EDITOR_CONTROLLER (data));
+	if (priv->startup == TRUE)
 		return;
-	
+
+	window = editor_controller_get_window (EDITOR_CONTROLLER (data));
+	image = editor_window_get_image (EDITOR_WINDOW (window));
+
 	pb = gtk_image_get_pixbuf (GTK_IMAGE (image));
 	
 	ht = gdk_pixbuf_get_height (pb);
@@ -373,11 +432,13 @@ editor_controller_asmfunc3_callback (GtkWidget * self, gpointer data) {
 	gint chans;
 	guchar * pixel;
 
-	window = data;
-	image = editor_window_get_image (EDITOR_WINDOW (window));
-	if (image == NULL) 
+	EditorControllerPrivate * priv = EDITOR_CONTROLLER_GET_PRIVATE (EDITOR_CONTROLLER (data));
+	if (priv->startup == TRUE)
 		return;
-	
+
+	window = editor_controller_get_window (EDITOR_CONTROLLER (data));
+	image = editor_window_get_image (EDITOR_WINDOW (window));
+
 	pb = gtk_image_get_pixbuf (GTK_IMAGE (image));
 	
 	ht = gdk_pixbuf_get_height (pb);
@@ -407,11 +468,13 @@ editor_controller_asmfunc4_callback (GtkWidget * self, gpointer data) {
 	gint chans;
 	guchar * pixel;
 
-	window = data;
-	image = editor_window_get_image (EDITOR_WINDOW (window));
-	if (image == NULL) 
+	EditorControllerPrivate * priv = EDITOR_CONTROLLER_GET_PRIVATE (EDITOR_CONTROLLER (data));
+	if (priv->startup == TRUE)
 		return;
-	
+
+	window = editor_controller_get_window (EDITOR_CONTROLLER (data));
+	image = editor_window_get_image (EDITOR_WINDOW (window));
+
 	pb = gtk_image_get_pixbuf (GTK_IMAGE (image));
 	
 	ht = gdk_pixbuf_get_height (pb);
@@ -428,6 +491,40 @@ editor_controller_asmfunc4_callback (GtkWidget * self, gpointer data) {
 	
 }
 
+void
+editor_controller_asmfunc5_callback (GtkWidget * self, gpointer data) {
+	GtkWidget * window;
+	GtkWidget * image;
+	GdkPixbuf * pb;
+	gint ht;
+	gint wt;
+	gint rowstride;
+	gint bpp;
+	gint chans;
+	guchar * pixel;
+
+	EditorControllerPrivate * priv = EDITOR_CONTROLLER_GET_PRIVATE (EDITOR_CONTROLLER (data));
+	if (priv->startup == TRUE)
+		return;
+
+	window = editor_controller_get_window (EDITOR_CONTROLLER (data));
+	image = editor_window_get_image (EDITOR_WINDOW (window));
+
+	pb = gtk_image_get_pixbuf (GTK_IMAGE (image));
+	
+	ht = gdk_pixbuf_get_height (pb);
+	pixel = gdk_pixbuf_get_pixels (pb);
+	rowstride = gdk_pixbuf_get_rowstride (pb);
+	
+	asm_fnc5 (pixel, ht, rowstride);
+
+	gtk_image_set_from_pixbuf (GTK_IMAGE (image), pb);
+	
+
+	gtk_widget_hide (editor_window_get_box (EDITOR_WINDOW (window) ) );
+	gtk_widget_show_all (editor_window_get_box (EDITOR_WINDOW (window) ) );
+	
+}
 
 /*
  * **@brief:
@@ -450,7 +547,7 @@ editor_controller_connect_signals (EditorController * self) {
 	g_signal_connect (editor_menubar_get_openitem (EDITOR_MENU_BAR (MenuBar)), 
 	                  "activate", 
 	                  G_CALLBACK ( editor_controller_open_callback ),
-					  window);
+					  self);
 	
 	g_signal_connect (editor_menubar_get_aboutitem (EDITOR_MENU_BAR (MenuBar)),
 					  "activate",
@@ -470,22 +567,27 @@ editor_controller_connect_signals (EditorController * self) {
 	g_signal_connect (editor_menubar_get_cf1 (EDITOR_MENU_BAR (MenuBar)),
 	                  "activate",
 	                  G_CALLBACK ( editor_controller_cfunc1_callback ),
-	                  window);
+	                  self);
 	
 	g_signal_connect (editor_menubar_get_cf2 (EDITOR_MENU_BAR (MenuBar)),
 	                  "activate",
 	                  G_CALLBACK ( editor_controller_cfunc2_callback ),
-	                  window);                                           
+	                  self);                                           
 	
 	g_signal_connect (editor_menubar_get_cf3 (EDITOR_MENU_BAR (MenuBar)),
 	                  "activate",
 	                  G_CALLBACK ( editor_controller_cfunc3_callback ),
-	                  window);
+	                  self);
+
+	g_signal_connect (editor_menubar_get_cf5 (EDITOR_MENU_BAR (MenuBar)),
+	                  "activate",
+	                  G_CALLBACK (editor_controller_cfunc5_callback ),
+	                  self);    
 	
 	g_signal_connect (editor_menubar_get_cf4 (EDITOR_MENU_BAR (MenuBar)),
 	                  "activate",
 	                  G_CALLBACK (editor_controller_cfunc4_callback ),
-	                  window);    
+	                  self);    
 	
 	/************************************************************************************
 	 * 									Asm callbacks 									*
@@ -494,19 +596,24 @@ editor_controller_connect_signals (EditorController * self) {
 	g_signal_connect (editor_menubar_get_asm1 (EDITOR_MENU_BAR (MenuBar)),
 	                  "activate",
 	                  G_CALLBACK (editor_controller_asmfunc1_callback ),
-	                  window);    
+	                  self);    
 	g_signal_connect (editor_menubar_get_asm2 (EDITOR_MENU_BAR (MenuBar)),
 	                  "activate",
 	                  G_CALLBACK (editor_controller_asmfunc2_callback ),
-	                  window);    
+	                  self);    
 	g_signal_connect (editor_menubar_get_asm3 (EDITOR_MENU_BAR (MenuBar)),
 	                  "activate",
 	                  G_CALLBACK (editor_controller_asmfunc3_callback ),
-	                  window);    
+	                  self);    
+
 	g_signal_connect (editor_menubar_get_asm4 (EDITOR_MENU_BAR (MenuBar)),
 	                  "activate",
 	                  G_CALLBACK (editor_controller_asmfunc4_callback ),
-	                  window);   
+	                  self);
+	g_signal_connect (editor_menubar_get_asm5 (EDITOR_MENU_BAR (MenuBar)),
+	                  "activate",
+	                  G_CALLBACK (editor_controller_asmfunc5_callback ),
+	                  self);   
 	
 }
 
@@ -522,6 +629,12 @@ editor_controller_init (EditorController * self) {
 	EditorControllerPrivate * priv = self->priv;
 
 	priv->Window = editor_window_new ();
+	if (editor_window_get_image (EDITOR_WINDOW (priv->Window)) != FALSE) 
+		editor_window_set_image (EDITOR_WINDOW (priv->Window),
+				editor_window_get_image (EDITOR_WINDOW (priv->Window)));
+
+	priv->startup = TRUE;
+	
 
 	editor_controller_connect_signals (self);
 

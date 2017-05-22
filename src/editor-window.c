@@ -53,6 +53,7 @@ editor_window_set_image ( EditorWindow * self, GtkWidget * image) {
 		gtk_widget_destroy (priv->Image);
 	
 	priv->Image = image;
+	//gtk_widget_set_opacity (GTK_WIDGET (priv->Image), 1);
 	gtk_box_pack_start (GTK_BOX (priv->box), priv->Image, TRUE, TRUE, 0);
 }
 
@@ -62,7 +63,7 @@ editor_window_init (EditorWindow * self) {
 	self->priv = EDITOR_WINDOW_GET_PRIVATE (self);
 	EditorWindowPrivate * priv = self->priv;
 	
-	gtk_window_set_title (GTK_WINDOW (self), "SIMPLE PNG EDITOR");
+	gtk_window_set_title (GTK_WINDOW (self), PROGRAM_NAME);
 	gtk_window_set_default_size (GTK_WINDOW (self), 640, 480);
 	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
 	gtk_widget_set_size_request (GTK_WIDGET (self), 640, 480);
@@ -76,8 +77,23 @@ editor_window_init (EditorWindow * self) {
 	gtk_box_pack_start (GTK_BOX (priv->box), priv->MenuBar, FALSE, TRUE, 0);
 	
 	gtk_container_add (GTK_CONTAINER (self), priv->box);
-
-	priv->Image = NULL;
+	GError * err = NULL;
+	GdkPixbuf * pixbuf = gdk_pixbuf_new_from_file (EDITOR_OPENING_IMAGE, &err);
+	if (pixbuf == NULL) {
+			g_print("[SIMPLE-IMAGE-VIEWER] Warning: %s\n", err->message);
+		pixbuf = gdk_pixbuf_new_from_file (EDITOR_ALT_OPENING_IMAGE, &err);
+		if (pixbuf == NULL) {
+			g_print("[SIMPLE-IMAGE-VIEWER] Warning: %s\n", err->message);
+		}
+	}
+	if (pixbuf != NULL) {
+		priv->Image = gtk_image_new_from_pixbuf (pixbuf);
+		gtk_widget_set_opacity (GTK_WIDGET (priv->Image), 0.3);
+		g_object_unref (pixbuf);
+		pixbuf = NULL;
+	} else {
+		priv->Image = NULL;
+	}
 }
 
 static void

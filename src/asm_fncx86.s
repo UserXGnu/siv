@@ -27,6 +27,7 @@
 	.global asm_fnc2
 	.global asm_fnc3
 	.global asm_fnc4
+	.global asm_fnc5
 
 //void asm_fnc1 (guchar * pixels, unsigned int lns, unsigned int cols);
 asm_fnc1:
@@ -94,6 +95,14 @@ asm_fnc4:
 	mov 	%esp, %ebp
 
 	.L_4_end:
+		mov 	%ebp, %esp
+		pop 	%ebp
+		ret
+asm_fnc5:
+	push 	%ebp
+	mov 	%esp, %ebp
+
+	.L_5_end:
 		mov 	%ebp, %esp
 		pop 	%ebp
 		ret

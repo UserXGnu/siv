@@ -34,6 +34,7 @@ section .text
 	global asm_fnc2
 	global asm_fnc3
 	global asm_fnc4
+	global asm_fnc5
 
 ;void asm_fnc1 (guchar * pixels, unsigned int lns, unsigned int cols);
 asm_fnc1:
@@ -95,6 +96,15 @@ asm_fnc3:
 		ret
 
 asm_fnc4:
+	push 	rbp
+	mov 	rbp, rsp
+
+	.end:
+		mov 	rsp, rbp
+		pop 	rbp
+		ret
+		
+asm_fnc5:
 	push 	rbp
 	mov 	rbp, rsp
 

@@ -58,11 +58,13 @@ GtkWidget * editor_menubar_get_cf1 (EditorMenuBar * self);
 GtkWidget * editor_menubar_get_cf2 (EditorMenuBar * self);
 GtkWidget * editor_menubar_get_cf3 (EditorMenuBar * self);
 GtkWidget * editor_menubar_get_cf4 (EditorMenuBar * self);
+GtkWidget * editor_menubar_get_cf5 (EditorMenuBar * self);
 
 GtkWidget * editor_menubar_get_asm1 (EditorMenuBar * self);
 GtkWidget * editor_menubar_get_asm2 (EditorMenuBar * self);
 GtkWidget * editor_menubar_get_asm3 (EditorMenuBar * self);
 GtkWidget * editor_menubar_get_asm4 (EditorMenuBar * self);
+GtkWidget * editor_menubar_get_asm5 (EditorMenuBar * self);
 
 G_END_DECLS
 

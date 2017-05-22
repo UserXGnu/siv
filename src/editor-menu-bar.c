@@ -73,13 +73,13 @@ editor_menubar_get_cf3 (EditorMenuBar * self) {
 }
 
 GtkWidget *
-editor_menubar_get_cf5 (EditorMenuBar * self) {
-	return EDITOR_MENU_BAR_GET_PRIVATE (self)->CFunc5;
+editor_menubar_get_cf4 (EditorMenuBar * self) {
+	return EDITOR_MENU_BAR_GET_PRIVATE (self)->CFunc4;
 }
 
 GtkWidget *
-editor_menubar_get_cf4 (EditorMenuBar * self) {
-	return EDITOR_MENU_BAR_GET_PRIVATE (self)->CFunc4;
+editor_menubar_get_cf5 (EditorMenuBar * self) {
+	return EDITOR_MENU_BAR_GET_PRIVATE (self)->CFunc5;
 }
 
 GtkWidget *

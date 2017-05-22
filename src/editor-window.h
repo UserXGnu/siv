@@ -22,6 +22,8 @@
 
 #include <gtk/gtk.h>
 
+#include "definitions.h"
+
 G_BEGIN_DECLS
 
 #define EDITOR_TYPE_WINDOW             (editor_window_get_type ())

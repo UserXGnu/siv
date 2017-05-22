@@ -21,6 +21,7 @@ PUBLIC asm_fnc1
 PUBLIC asm_fnc2
 PUBLIC asm_fnc3
 PUBLIC asm_fnc4
+PUBLIC asm_fnc5
 
 ; @note:
 ;	 once that jwasm doesn't have support for 
@@ -91,5 +92,11 @@ asm_fnc4 proc c pixels: ptr byte, lns: dword, cols: dword
 	; TODO ...
 	ret 
 asm_fnc4 endp
+
+asm_fnc5 proc c pixels: ptr byte, lns: dword, cols: dword 
+ 	args_assign  
+	; TODO ...
+	ret 
+asm_fnc5 endp
 
 END

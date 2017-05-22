@@ -15,6 +15,21 @@
 					"with this program.  If not, see <http://www.gnu.org/licenses/>."
 #endif 
 	
+#ifndef EDITOR_ABOUT_IMAGE
+#define EDITOR_ABOUT_IMAGE "resources/gnu_headshadow.png"
+#endif
+
+#ifndef EDITOR_ALT_ABOUT_IMAGE
+#define EDITOR_ALT_ABOUT_IMAGE "/usr/share/siv_image/gnu_headshadow.png"
+#endif 
+
+#ifndef EDITOR_OPENING_IMAGE 
+#define EDITOR_OPENING_IMAGE "resources/gplv3-127x51.png"
+#endif
+
+#ifndef EDITOR_ALT_OPENING_IMAGE
+#define EDITOR_ALT_OPENING_IMAGE "/usr/share/siv_image/gplv3-127x51.png"
+#endif
 
 #ifndef PROGRAM_NAME
 #define PROGRAM_NAME 	"SIV - Simple Image Viewer"
