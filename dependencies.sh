@@ -7,20 +7,20 @@ if [ -z "$OS" ]; then
 fi
 
 if [ "$OS" == "arch" ]; then
-	sudo pacman -S gcc nasm make intltool pkg-config gnome-doc-utils devhelp gtk3 gstreamer clutter webkitgtk3 libgda gobject-introspection
+	sudo pacman -S git gcc nasm make intltool pkg-config gnome-doc-utils devhelp gtk3 gstreamer clutter webkitgtk3 libgda gobject-introspection
 
 elif [ "$OS" == "ubuntu" ]; then
-	sudo apt install build-essential gcc nasm pkg-config libgtk-3-dev libgstreamer1.0-dev libclutter-1.0-dev libwebkit2gtk-4.0-dev libgda-5.0-dev libgtk-3-doc gstreamer1.0-doc libclutter-1.0-doc libwebkit2gtk-4.0-doc libgda-5.0-doc 
+	sudo apt install git build-essential gcc nasm pkg-config libgtk-3-dev libgstreamer1.0-dev libclutter-1.0-dev libwebkit2gtk-4.0-dev libgda-5.0-dev libgtk-3-doc gstreamer1.0-doc libclutter-1.0-doc libwebkit2gtk-4.0-doc libgda-5.0-doc 
 
 elif [ "$OS" == "debian" ]; then
-	sudo apt install build-essential gcc nasm pkg-config libgtk-3-dev libgtk-3-doc intltool
+	sudo apt install git build-essential gcc nasm pkg-config libgtk-3-dev libgtk-3-doc intltool
 fi
 
 other_OS=$(echo $OS |grep pretty_name | awk -F "=" '{print $2}' | awk -F "\"" '{ print $2 }' | awk -F " " '{print $1 }')
 #echo -e "$other_OS"
 
 if [ "$other_OS" == "debian" ]; then
-	sudo apt install build-essential gcc nasm pkg-config libgtk-3-dev libgtk-3-doc intltool
+	sudo apt install git build-essential gcc nasm pkg-config libgtk-3-dev libgtk-3-doc intltool
 fi
 
 echo -e "\n\n\n\t\t\tCOMPILING JWASM FROM ORIGINAL REPOS\n\n\n"
