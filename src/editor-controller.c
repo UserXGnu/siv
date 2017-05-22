@@ -245,6 +245,7 @@ editor_controller_cfunc3_callback (GtkWidget * self, gpointer data) {
 	ht = gdk_pixbuf_get_height (pb);
 	pixel = gdk_pixbuf_get_pixels (pb);
 	rowstride = gdk_pixbuf_get_rowstride (pb);
+
 	gint level;
 	for (gint i = 0; i < ht; i++) {
 		for (gint j = 0; j < rowstride; j = j + bpp) {
@@ -277,16 +278,16 @@ editor_controller_cfunc4_callback (GtkWidget * self, gpointer data) {
 	if (priv->startup == TRUE)
 		return;
 
-	window = editor_controller_get_window (EDITOR_CONTROLLER (window));
+	window = editor_controller_get_window (EDITOR_CONTROLLER (data));
 	image = editor_window_get_image (EDITOR_WINDOW (window));
-
+	
 	pb = gtk_image_get_pixbuf (GTK_IMAGE (image));
 	
-	//bpp = gdk_pixbuf_get_bits_per_sample (pb);
 	bpp = gdk_pixbuf_get_n_channels (pb);
 	ht = gdk_pixbuf_get_height (pb);
 	pixel = gdk_pixbuf_get_pixels (pb);
 	rowstride = gdk_pixbuf_get_rowstride (pb);
+
 	gint level;
 	for (gint i = 0; i < ht; i++) {
 		for (gint j = 0; j < rowstride; j = j + bpp) {
@@ -319,16 +320,16 @@ editor_controller_cfunc5_callback (GtkWidget * self, gpointer data) {
 	if (priv->startup == TRUE)
 		return;
 
-	window = editor_controller_get_window (EDITOR_CONTROLLER (window));
+	window = editor_controller_get_window (EDITOR_CONTROLLER (data));
 	image = editor_window_get_image (EDITOR_WINDOW (window));
-
+	
 	pb = gtk_image_get_pixbuf (GTK_IMAGE (image));
 	
-	//bpp = gdk_pixbuf_get_bits_per_sample (pb);
 	bpp = gdk_pixbuf_get_n_channels (pb);
 	ht = gdk_pixbuf_get_height (pb);
 	pixel = gdk_pixbuf_get_pixels (pb);
 	rowstride = gdk_pixbuf_get_rowstride (pb);
+
 	gint level;
 	for (gint i = 0; i < ht; i++) {
 		for (gint j = 0; j < rowstride; j = j + bpp) {
@@ -345,6 +346,7 @@ editor_controller_cfunc5_callback (GtkWidget * self, gpointer data) {
 	gtk_widget_show_all (editor_window_get_box (EDITOR_WINDOW (window) ) );
 	
 }
+
 	/************************************************************************************
 	 * 									ASM CALLBACKS DEV								*
 	 ************************************************************************************/
@@ -579,14 +581,14 @@ editor_controller_connect_signals (EditorController * self) {
 	                  G_CALLBACK ( editor_controller_cfunc3_callback ),
 	                  self);
 
-	g_signal_connect (editor_menubar_get_cf5 (EDITOR_MENU_BAR (MenuBar)),
-	                  "activate",
-	                  G_CALLBACK (editor_controller_cfunc5_callback ),
-	                  self);    
-	
 	g_signal_connect (editor_menubar_get_cf4 (EDITOR_MENU_BAR (MenuBar)),
 	                  "activate",
 	                  G_CALLBACK (editor_controller_cfunc4_callback ),
+	                  self);    
+	
+	g_signal_connect (editor_menubar_get_cf5 (EDITOR_MENU_BAR (MenuBar)),
+	                  "activate",
+	                  G_CALLBACK (editor_controller_cfunc5_callback ),
 	                  self);    
 	
 	/************************************************************************************

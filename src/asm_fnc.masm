@@ -24,14 +24,25 @@ PUBLIC asm_fnc4
 PUBLIC asm_fnc5
 
 ; @note:
-;	 once that jwasm doesn't have support for 
-;	 System V ABI calling convention
-;	 I created this macro to adjust 
-;	 the parameters for our procedures.
+;	 once that jwasm doesn't offer support for 
+;	 POSIX System V ABI calling convention for
+;	 x86_64 systems,I created these macros to 
+;	 adjust the parameters for our procedures.
 args_assign MACRO 
 	mov dword ptr [rbp+20h], edx
 	mov dword ptr [rbp+18h], esi
 	mov qword ptr [rbp+10h], rdi
+ENDM
+
+; in case of using x, y as parameters to locate some specific pixel
+args_assign2 MACRO 
+	mov 	rax, r8
+	mov 	dword ptr [rbp+30h], eax
+	mov 	dword ptr [rbp+28h], ecx
+	mov 	dword ptr [rbp+20h], edx
+	mov 	dword ptr [rbp+18h], rsi
+	mov 	qword ptr [rbp+10h], rdi
+	xor 	rax, rax
 ENDM
 
 ; prototypes
@@ -39,14 +50,14 @@ asm_fnc1 proto c pixels: ptr byte, lns: dword, cols: dword
 asm_fnc2 proto c pixels: ptr byte, lns: dword, cols: dword 
 asm_fnc3 proto c pixels: ptr byte, lns: dword, cols: dword 
 asm_fnc4 proto c pixels: ptr byte, lns: dword, cols: dword 
-
-.data
-	channels DWORD 3
-
+asm_fnc5 proto c pixels: ptr byte, lns: dword, cols: dword 
 
 .code
 asm_fnc1 proc c uses rbx pixels: ptr byte, lns: dword, cols: dword
- 	args_assign  
+	LOCAL channels: dword
+ 	args_assign 
+	
+	mov 	[channels], 03h
 
 	mov   	eax, cols
 	mul 	lns

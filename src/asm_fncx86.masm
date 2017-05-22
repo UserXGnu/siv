@@ -32,6 +32,7 @@ asm_fnc1 proto c pixels: ptr byte, lns: dword, cols: dword
 asm_fnc2 proto c pixels: ptr byte, lns: dword, cols: dword 
 asm_fnc3 proto c pixels: ptr byte, lns: dword, cols: dword 
 asm_fnc4 proto c pixels: ptr byte, lns: dword, cols: dword 
+asm_fnc5 proto c pixels: ptr byte, lns: dword, cols: dword 
 
 .code
 asm_fnc1 proc c uses ebx pixels: ptr byte, lns: dword, cols: dword
