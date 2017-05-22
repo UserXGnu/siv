@@ -41,3 +41,5 @@ so if you type only:
 	$ make 
 
 It will compile using masm x86, as if you typed "make masm86". 
+
+![alt text](https://upload.wikimedia.org/wikipedia/commons/9/93/GPLv3_Logo.svg)
