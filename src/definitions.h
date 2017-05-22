@@ -3,7 +3,7 @@
 
 #ifndef LICENSE
 #define LICENSE 	"Copyright (C) 2017 UserX <userx.gnu@gmail.com>\n\n"\
-					"SIV is free software: you can redistribute it and/or modify it\n"\
+					"This is a free software: you can redistribute it and/or modify it\n"\
 					"under the terms of the GNU General Public License as published by the\n"\
 					"Free Software Foundation, either version 3 of the License, or\n"\
 					"(at your option) any later version.\n\n"\
