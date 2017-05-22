@@ -1,83 +1,78 @@
-[bits 64]
+.data
+	.align 16
+	channels: .word 3
 
-%define RED 	0
-%define GREEN 	1
-%define BLUE 	2
-%define ALPHA 	3
+.text
+	.global asm_fnc1
+	.global asm_fnc2
+	.global asm_fnc3
+	.global asm_fnc4
 
-section .data
-	channels dw 3
-
-section .text
-	global asm_fnc1
-	global asm_fnc2
-	global asm_fnc3
-	global asm_fnc4
-
-;void asm_fnc1 (guchar * pixels, unsigned int lns, unsigned int cols);
+//void asm_fnc1 (guchar * pixels, unsigned int lns, unsigned int cols);
 asm_fnc1:
-	push 	rbp
-	mov 	rbp, rsp
+	push 	%rbp
+	mov 	%rsp, %rbp
 	
-	push 	rbx
+	push 	%rbx
 
-	mov 	rax, rdx
-	mul 	rsi
-	jo 		.end
+	mov 	%rdx, %rax
+	mul 	%rsi
+	jo 		.L_1_end
 
-	mov 	rbx, rax
+	mov 	%rax, %rbx
 	
-	xor 	rdx, rdx
-	xor 	rcx, rcx
+	xor 	%rdx, %rdx
+	xor 	%rcx, %rcx
 
-	mov 	rsi, [channels]
-	.inner_loop:
-		cmp 	rcx, rbx
-		jge 	.end
-		movzx 	eax, byte [rdi + rcx + BLUE]
-		movzx 	edx, byte [rdi + rcx + GREEN]
-		add 	eax, edx
-		movzx 	edx, byte [rdi + rcx + RED]
-		add 	eax, edx
-		xor 	rdx, rdx
-		div 	si
+	mov 	channels, %rsi
+	.L_1_inner_loop:
+		cmpq 	%rbx, %rcx
+		jge 	.L_1_end
+		movzb 	2(%rdi, %rcx), %eax
+		movzb   1(%rdi, %rcx), %edx
+		add 	%edx, %eax
+		movzb 	0(%rdi, %rcx), %edx
+		add 	%edx, %eax
+		xor 	%rdx, %rdx
+		div 	%si
 
-		mov 	byte [rdi + rcx + BLUE], al
-		mov 	byte [rdi + rcx + GREEN], al
-		mov 	byte [rdi + rcx + RED], al
-		add 	rcx, 0x3
-		jmp 	.inner_loop
+		movb 	%al, 2(%rdi, %rcx)
+		movb 	%al, 1(%rdi, %rcx)
+		movb 	%al, 0(%rdi, %rcx)
+		add 	$0x03, %rcx
+		jmp 	.L_1_inner_loop
 	
-	.end:
-		pop 	rbx
-		xor 	rax, rax
-		mov 	rsp, rbp
-		pop 	rbp
+	.L_1_end:
+		pop 	%rbx
+		xor 	%rax, %rax
+		mov 	%rbp, %rsp
+		pop 	%rbp
 		ret
 
 asm_fnc2:
-	push 	rbp
-	mov 	rbp, rsp
+	push 	%rbp
+	mov 	%rsp, %rbp
 
-	.end:
-		mov 	rsp, rbp
-		pop 	rbp
+	.L_2_end:
+		mov 	%rbp, %rsp
+		pop 	%rbp
 		ret
 
 asm_fnc3:
-	push 	rbp
-	mov 	rbp, rsp
+	push 	%rbp
+	mov 	%rsp, %rbp
 
-	.end:
-		mov 	rsp, rbp
-		pop 	rbp
+	.L_3_end:
+		mov 	%rbp, %rsp
+		pop 	%rbp
 		ret
-
+		
 asm_fnc4:
-	push 	rbp
-	mov 	rbp, rsp
+	push 	%rbp
+	mov 	%rsp, %rbp
 
-	.end:
-		mov 	rsp, rbp
-		pop 	rbp
+	.L_4_end:
+		mov 	%rbp, %rsp
+		pop 	%rbp
 		ret
+

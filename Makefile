@@ -12,6 +12,8 @@ nasm86:
 nasm: 
 	make -C $(SRC) nasm
 
+gnuasm:
+	make -C $(SRC) gnuasm
 clean: 
 	make -C $(SRC) clean
 	
