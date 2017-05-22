@@ -7,8 +7,8 @@ MASMFLAG=-elf64 -10 -zcw
 NASMX86FLAG=-felf -o 
 NASMFLAG=-felf64 -o
 GASFLAG=-c
-CFLAG=-o
-OBJ_FLAG=-c
+CFLAG=--std=c11 -o
+OBJ_FLAG=--std=c11 -c
 PKGCONFIG=`pkg-config --libs --cflags gtk+-3.0`
 EXEC=../simple_imagem_viewer
 MAIN=main.c
