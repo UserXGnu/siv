@@ -13,9 +13,13 @@ It can be done by using *jwasm* (asm_fnc.masm asm_fncx86.masm) or
 Installing dependencies
 --------------------------
 
-In order to install all required dependencies to compile to whole project properly
-run ./dependencies.sh at the root of the project file system. It will detect whether 
-you are running archlinux or ubuntu, and will choose by then, how to install all
+In order to install all required dependencies to compile to whole project properly,
+run:
+
+$ ./dependencies.sh 
+
+at the root of the project file system. It will detect whether 
+you are running archlinux or ubuntu, and automaticlly choose by then, how to install all
 required dependencies.
 
 
