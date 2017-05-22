@@ -1,10 +1,10 @@
 SRC=src/
 
 all: 
-	make -C $(SRC) all 
+	make -C $(SRC) all
 
-masm86: 
-	make -C $(SRC) masm86
+nasm: 
+	make -C $(SRC) nasm
 
 masm: 
 	make -C $(SRC) masm
