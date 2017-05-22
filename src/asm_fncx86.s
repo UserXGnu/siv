@@ -10,10 +10,10 @@
 
 //void asm_fnc1 (guchar * pixels, unsigned int lns, unsigned int cols);
 asm_fnc1:
-	pushd 	%ebp
+	push 	%ebp
 	mov 	%esp, %ebp
 	
-	pushd 	%ebx
+	push 	%ebx
 
 	mov 	0x10(%ebp), %eax
 	mov 	0x0c(%ebp), %esi
