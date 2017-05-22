@@ -1,0 +1,66 @@
+.686
+.model small, c
+
+PUBLIC asm_fnc1
+PUBLIC asm_fnc2
+PUBLIC asm_fnc3
+PUBLIC asm_fnc4
+
+; prototypes
+asm_fnc1 proto c pixels: ptr byte, lns: dword, cols: dword 
+asm_fnc2 proto c pixels: ptr byte, lns: dword, cols: dword 
+asm_fnc3 proto c pixels: ptr byte, lns: dword, cols: dword 
+asm_fnc4 proto c pixels: ptr byte, lns: dword, cols: dword 
+
+.code
+asm_fnc1 proc c uses ebx pixels: ptr byte, lns: dword, cols: dword
+	LOCAL channels: dword
+
+	mov 	[channels], 03h
+	mov   	eax, cols
+	mul 	lns
+	jo 		fim
+
+	mov 	ebx, eax
+	xor 	ecx, ecx
+	mov 	edi, pixels
+	xor 	esi, esi
+	.while (ecx < ebx)
+		movzx 	eax, byte ptr [edi + ecx]      ; red channel
+		movzx 	edx, byte ptr [edi + ecx + 1]  ; green channel
+		add 	eax, edx
+		movzx 	edx, byte ptr [edi + ecx + 2]  ; blue channel
+		add 	eax, edx
+		xor 	edx, edx
+		div 	[channels]
+
+		mov 	byte ptr [edi + ecx], al
+		mov 	byte ptr [edi + ecx + 1], al
+		mov 	byte ptr [edi + ecx + 2], al
+		add 	ecx, 03h
+	.endw
+
+	fim:
+		xor 	eax, eax
+		ret
+asm_fnc1 endp
+
+asm_fnc2 proc c pixels: ptr byte, lns: dword, cols: dword 
+ 	  
+ 	; TODO ...
+	ret
+asm_fnc2 endp
+
+asm_fnc3 proc c pixels: ptr byte, lns: dword, cols: dword 
+ 	  
+	; TODO ...
+	ret
+asm_fnc3 endp
+
+asm_fnc4 proc c pixels: ptr byte, lns: dword, cols: dword 
+ 	  
+	; TODO ...
+	ret 
+asm_fnc4 endp
+
+END

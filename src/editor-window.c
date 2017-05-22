@@ -73,7 +73,6 @@ editor_window_init (EditorWindow * self) {
 	priv->MenuBar = editor_menubar_new ();
 	
 	gtk_box_pack_start (GTK_BOX (priv->box), priv->MenuBar, FALSE, TRUE, 0);
-	//gtk_box_pack_start (GTK_BOX (priv->box), priv->Image, FALSE, TRUE, 0);
 	
 	gtk_container_add (GTK_CONTAINER (self), priv->box);
 
