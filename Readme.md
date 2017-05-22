@@ -42,4 +42,7 @@ so if you type only:
 
 It will compile using masm x86, as if you typed "make masm86". 
 
+
+---
+
 ![alt text](http://i.imgur.com/ozz9QGq.png)
