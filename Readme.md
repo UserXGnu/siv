@@ -3,7 +3,7 @@ Simple Image Viewer
 
 Simple Image Viewer, what a cool name uhn? 
 
-It was created with educational purpose and aims to challenge the students into completing the assembly code located on asm_fnc*.* files. This can be done by using *jwasm* (asm_fnc.masm asm_fncx86.masm), *nasm* (asm_fnc.asm, asm_fncx86.asm) or *gnuasm* (asm_fnc.s asm_fncx86.s)
+It was created for educational purpose and aims to challenge the students into completing the assembly code located on asm_fnc*.* files. This can be done by using *jwasm* (asm_fnc.masm asm_fncx86.masm), *nasm* (asm_fnc.asm, asm_fncx86.asm) or *gnuasm* (asm_fnc.s asm_fncx86.s)
 
 
 Installing dependencies
