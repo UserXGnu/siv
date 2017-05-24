@@ -39,4 +39,4 @@ sleep 3
 cd ../ 
 rm -rf JWasm-master
 
-echo -e "\n\n\n\t\t\tALL DEPENDENCIES INSTALLED WITH SUCCESS [!!]\n\n\n"
+echo -e "\n\n\n\t\t\tALL DEPENDENCIES SUCCESSFULLY INSTALLED [!!]\n\n\n"

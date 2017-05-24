@@ -36,14 +36,6 @@ G_BEGIN_DECLS
 #define EDITOR_CONTROLLER_GET_CLASS(obj)   (G_TYPE_INSTANCE_GET_CLASS ((obj), EDITOR_TYPE_CONTROLLER, EditorControllerClass))
 #define EDITOR_CONTROLLER_GET_PRIVATE(obj)  (G_TYPE_INSTANCE_GET_PRIVATE ((obj), EDITOR_TYPE_CONTROLLER, EditorControllerPrivate))
 
-#define RED_LEVEL 				(pixel[i*rowstride + j])
-#define GREEN_LEVEL 			(pixel[i*rowstride + j+1])
-#define BLUE_LEVEL 				(pixel[i*rowstride + j+2])
-#define ALPHA_LEVEL 			(pixel[i*rowstride + j+3])
-
-#define COLOR_DATA(obj) 		((color_data_t *)obj)
-#define COLOR(obj) 				((color_t *)obj)
-
 typedef struct _EditorControllerClass EditorControllerClass;
 typedef struct _EditorController EditorController;
 typedef struct _EditorControllerPrivate EditorControllerPrivate;

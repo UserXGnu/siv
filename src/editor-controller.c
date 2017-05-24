@@ -30,6 +30,12 @@ extern void asm_fnc3 (guchar * pixles, int ht, int rowstride);
 extern void asm_fnc4 (guchar * pixles, int ht, int rowstride);
 extern void asm_fnc5 (guchar * pixles, int ht, int rowstride);
 
+extern void c_fnc1 (guchar * pixels, int width, int height);
+extern void c_fnc2 (guchar * pixels, int width, int height);
+extern void c_fnc3 (guchar * pixels, int width, int height);
+extern void c_fnc4 (guchar * pixels, int width, int height);
+extern void c_fnc5 (guchar * pixels, int width, int height);
+
 struct _EditorControllerPrivate {
 	gboolean 	startup;
 	GtkWidget * Window;
@@ -139,7 +145,7 @@ editor_controller_cfunc1_callback (GtkWidget * self, gpointer data) {
 	gint ht;
 	gint rowstride;
 	gint bpp;
-	guchar * pixel;
+	guchar * pixels;
 	window = data;
 
 	EditorControllerPrivate * priv = EDITOR_CONTROLLER_GET_PRIVATE (EDITOR_CONTROLLER (data));
@@ -153,24 +159,11 @@ editor_controller_cfunc1_callback (GtkWidget * self, gpointer data) {
 	rowstride = gdk_pixbuf_get_rowstride (pb);
 	bpp = gdk_pixbuf_get_n_channels (pb);
 	ht = gdk_pixbuf_get_height (pb);
-	pixel = gdk_pixbuf_get_pixels (pb);
+	pixels = gdk_pixbuf_get_pixels (pb);
 
-	for (gint i = 0; i < ht; i++) {
-		for (gint j = 0; j < rowstride; j = j + bpp) {
-			guint media = RED_LEVEL;
-			media += GREEN_LEVEL;
-			media += BLUE_LEVEL;
-			media = media/3;
-
-			RED_LEVEL = media;
-			GREEN_LEVEL = media;
-			BLUE_LEVEL = media;
-
-		}
-	}
+	c_fnc1 (pixels, ht, rowstride);
 	
 	gtk_image_set_from_pixbuf (GTK_IMAGE (image), pb);
-	
 
 	gtk_widget_hide (editor_window_get_box (EDITOR_WINDOW (window) ) );
 	gtk_widget_show_all (editor_window_get_box (EDITOR_WINDOW (window) ) );
@@ -185,7 +178,7 @@ editor_controller_cfunc2_callback (GtkWidget * self, gpointer data) {
 	gint ht;
 	gint rowstride;
 	gint bpp;
-	guchar * pixel;
+	guchar * pixels;
 
 	EditorControllerPrivate * priv = EDITOR_CONTROLLER_GET_PRIVATE (EDITOR_CONTROLLER (data));
 	if (priv->startup == TRUE)
@@ -198,23 +191,13 @@ editor_controller_cfunc2_callback (GtkWidget * self, gpointer data) {
 	
 	bpp = gdk_pixbuf_get_n_channels (pb);
 	ht = gdk_pixbuf_get_height (pb);
-	pixel = gdk_pixbuf_get_pixels (pb);
+	pixels = gdk_pixbuf_get_pixels (pb);
 	rowstride = gdk_pixbuf_get_rowstride (pb);
-	gint color;
-	for (gint i = 0; i < ht; i++) {
-		for (gint j = 0; j < rowstride; j = j + bpp) {
-			color = pixel [i*rowstride + j+0];
 
-			pixel [i*rowstride + j+0] = pixel [i*rowstride + j+1];
-			pixel [i*rowstride + j+1] = pixel [i*rowstride + j+2];
-			pixel [i*rowstride + j+2] = color;
+	c_fnc2 (pixels, ht, rowstride);
 
-		}
-	}
-	
 	gtk_image_set_from_pixbuf (GTK_IMAGE (image), pb);
 	
-
 	gtk_widget_hide (editor_window_get_box (EDITOR_WINDOW (window) ) );
 	gtk_widget_show_all (editor_window_get_box (EDITOR_WINDOW (window) ) );
 	
@@ -230,7 +213,7 @@ editor_controller_cfunc3_callback (GtkWidget * self, gpointer data) {
 	gint wt;
 	gint rowstride;
 	gint bpp;
-	guchar * pixel;
+	guchar * pixels;
 
 	EditorControllerPrivate * priv = EDITOR_CONTROLLER_GET_PRIVATE (EDITOR_CONTROLLER (data));
 	if (priv->startup == TRUE)
@@ -243,20 +226,12 @@ editor_controller_cfunc3_callback (GtkWidget * self, gpointer data) {
 	
 	bpp = gdk_pixbuf_get_n_channels (pb);
 	ht = gdk_pixbuf_get_height (pb);
-	pixel = gdk_pixbuf_get_pixels (pb);
+	pixels = gdk_pixbuf_get_pixels (pb);
 	rowstride = gdk_pixbuf_get_rowstride (pb);
 
-	gint level;
-	for (gint i = 0; i < ht; i++) {
-		for (gint j = 0; j < rowstride; j = j + bpp) {
-			level = RED_LEVEL + LEVEL;
-			RED_LEVEL = (level > 255) ? 0 : level;
+	c_fnc3 (pixels, ht, rowstride);
 
-		}
-	}
-	
 	gtk_image_set_from_pixbuf (GTK_IMAGE (image), pb);
-	
 
 	gtk_widget_hide (editor_window_get_box (EDITOR_WINDOW (window) ) );
 	gtk_widget_show_all (editor_window_get_box (EDITOR_WINDOW (window) ) );
@@ -272,7 +247,7 @@ editor_controller_cfunc4_callback (GtkWidget * self, gpointer data) {
 	gint wt;
 	gint rowstride;
 	gint bpp;
-	guchar * pixel;
+	guchar * pixels;
 
 	EditorControllerPrivate * priv = EDITOR_CONTROLLER_GET_PRIVATE (EDITOR_CONTROLLER (data));
 	if (priv->startup == TRUE)
@@ -285,21 +260,13 @@ editor_controller_cfunc4_callback (GtkWidget * self, gpointer data) {
 	
 	bpp = gdk_pixbuf_get_n_channels (pb);
 	ht = gdk_pixbuf_get_height (pb);
-	pixel = gdk_pixbuf_get_pixels (pb);
+	pixels = gdk_pixbuf_get_pixels (pb);
 	rowstride = gdk_pixbuf_get_rowstride (pb);
 
-	gint level;
-	for (gint i = 0; i < ht; i++) {
-		for (gint j = 0; j < rowstride; j = j + bpp) {
-			level = RED_LEVEL + LEVEL;
-			RED_LEVEL = (level > 255) ? 0 : level;
-
-		}
-	}
+	c_fnc4 (pixels, ht, rowstride);
 	
 	gtk_image_set_from_pixbuf (GTK_IMAGE (image), pb);
 	
-
 	gtk_widget_hide (editor_window_get_box (EDITOR_WINDOW (window) ) );
 	gtk_widget_show_all (editor_window_get_box (EDITOR_WINDOW (window) ) );
 	
@@ -314,7 +281,7 @@ editor_controller_cfunc5_callback (GtkWidget * self, gpointer data) {
 	gint wt;
 	gint rowstride;
 	gint bpp;
-	guchar * pixel;
+	guchar * pixels;
 
 	EditorControllerPrivate * priv = EDITOR_CONTROLLER_GET_PRIVATE (EDITOR_CONTROLLER (data));
 	if (priv->startup == TRUE)
@@ -327,21 +294,13 @@ editor_controller_cfunc5_callback (GtkWidget * self, gpointer data) {
 	
 	bpp = gdk_pixbuf_get_n_channels (pb);
 	ht = gdk_pixbuf_get_height (pb);
-	pixel = gdk_pixbuf_get_pixels (pb);
+	pixels = gdk_pixbuf_get_pixels (pb);
 	rowstride = gdk_pixbuf_get_rowstride (pb);
 
-	gint level;
-	for (gint i = 0; i < ht; i++) {
-		for (gint j = 0; j < rowstride; j = j + bpp) {
-			level = RED_LEVEL + LEVEL;
-			RED_LEVEL = (level > 255) ? 0 : level;
-
-		}
-	}
+	c_fnc5 (pixels, ht, rowstride);
 	
 	gtk_image_set_from_pixbuf (GTK_IMAGE (image), pb);
 	
-
 	gtk_widget_hide (editor_window_get_box (EDITOR_WINDOW (window) ) );
 	gtk_widget_show_all (editor_window_get_box (EDITOR_WINDOW (window) ) );
 	
@@ -360,7 +319,7 @@ editor_controller_asmfunc1_callback (GtkWidget * self, gpointer data) {
 	gint rowstride;
 	gint bpp;
 	gint chans;
-	guchar * pixel;
+	guchar * pixels;
 
 	EditorControllerPrivate * priv = EDITOR_CONTROLLER_GET_PRIVATE (EDITOR_CONTROLLER (data));
 	if (priv->startup == TRUE)
@@ -374,14 +333,13 @@ editor_controller_asmfunc1_callback (GtkWidget * self, gpointer data) {
 	
 	ht = gdk_pixbuf_get_height (pb);
 	wt = gdk_pixbuf_get_width (pb);
-	pixel = gdk_pixbuf_get_pixels (pb);
+	pixels = gdk_pixbuf_get_pixels (pb);
 	rowstride = gdk_pixbuf_get_rowstride (pb);
 	
-	asm_fnc1 (pixel, ht, rowstride);
+	asm_fnc1 (pixels, ht, rowstride);
 
 	gtk_image_set_from_pixbuf (GTK_IMAGE (image), pb);
 	
-
 	gtk_widget_hide (editor_window_get_box (EDITOR_WINDOW (window) ) );
 	gtk_widget_show_all (editor_window_get_box (EDITOR_WINDOW (window) ) );
 	
@@ -397,7 +355,7 @@ editor_controller_asmfunc2_callback (GtkWidget * self, gpointer data) {
 	gint rowstride;
 	gint bpp;
 	gint chans;
-	guchar * pixel;
+	guchar * pixels;
 
 	EditorControllerPrivate * priv = EDITOR_CONTROLLER_GET_PRIVATE (EDITOR_CONTROLLER (data));
 	if (priv->startup == TRUE)
@@ -409,14 +367,13 @@ editor_controller_asmfunc2_callback (GtkWidget * self, gpointer data) {
 	pb = gtk_image_get_pixbuf (GTK_IMAGE (image));
 	
 	ht = gdk_pixbuf_get_height (pb);
-	pixel = gdk_pixbuf_get_pixels (pb);
+	pixels = gdk_pixbuf_get_pixels (pb);
 	rowstride = gdk_pixbuf_get_rowstride (pb);
 	
-	asm_fnc2 (pixel, ht, rowstride);
+	asm_fnc2 (pixels, ht, rowstride);
 
 	gtk_image_set_from_pixbuf (GTK_IMAGE (image), pb);
 	
-
 	gtk_widget_hide (editor_window_get_box (EDITOR_WINDOW (window) ) );
 	gtk_widget_show_all (editor_window_get_box (EDITOR_WINDOW (window) ) );
 	
@@ -432,7 +389,7 @@ editor_controller_asmfunc3_callback (GtkWidget * self, gpointer data) {
 	gint rowstride;
 	gint bpp;
 	gint chans;
-	guchar * pixel;
+	guchar * pixels;
 
 	EditorControllerPrivate * priv = EDITOR_CONTROLLER_GET_PRIVATE (EDITOR_CONTROLLER (data));
 	if (priv->startup == TRUE)
@@ -444,14 +401,13 @@ editor_controller_asmfunc3_callback (GtkWidget * self, gpointer data) {
 	pb = gtk_image_get_pixbuf (GTK_IMAGE (image));
 	
 	ht = gdk_pixbuf_get_height (pb);
-	pixel = gdk_pixbuf_get_pixels (pb);
+	pixels = gdk_pixbuf_get_pixels (pb);
 	rowstride = gdk_pixbuf_get_rowstride (pb);
 	
-	asm_fnc3 (pixel, ht, rowstride);
+	asm_fnc3 (pixels, ht, rowstride);
 
 	gtk_image_set_from_pixbuf (GTK_IMAGE (image), pb);
 	
-
 	gtk_widget_hide (editor_window_get_box (EDITOR_WINDOW (window) ) );
 	gtk_widget_show_all (editor_window_get_box (EDITOR_WINDOW (window) ) );
 	
@@ -468,7 +424,7 @@ editor_controller_asmfunc4_callback (GtkWidget * self, gpointer data) {
 	gint rowstride;
 	gint bpp;
 	gint chans;
-	guchar * pixel;
+	guchar * pixels;
 
 	EditorControllerPrivate * priv = EDITOR_CONTROLLER_GET_PRIVATE (EDITOR_CONTROLLER (data));
 	if (priv->startup == TRUE)
@@ -480,14 +436,13 @@ editor_controller_asmfunc4_callback (GtkWidget * self, gpointer data) {
 	pb = gtk_image_get_pixbuf (GTK_IMAGE (image));
 	
 	ht = gdk_pixbuf_get_height (pb);
-	pixel = gdk_pixbuf_get_pixels (pb);
+	pixels = gdk_pixbuf_get_pixels (pb);
 	rowstride = gdk_pixbuf_get_rowstride (pb);
 	
-	asm_fnc4 (pixel, ht, rowstride);
+	asm_fnc4 (pixels, ht, rowstride);
 
 	gtk_image_set_from_pixbuf (GTK_IMAGE (image), pb);
 	
-
 	gtk_widget_hide (editor_window_get_box (EDITOR_WINDOW (window) ) );
 	gtk_widget_show_all (editor_window_get_box (EDITOR_WINDOW (window) ) );
 	
@@ -503,7 +458,7 @@ editor_controller_asmfunc5_callback (GtkWidget * self, gpointer data) {
 	gint rowstride;
 	gint bpp;
 	gint chans;
-	guchar * pixel;
+	guchar * pixels;
 
 	EditorControllerPrivate * priv = EDITOR_CONTROLLER_GET_PRIVATE (EDITOR_CONTROLLER (data));
 	if (priv->startup == TRUE)
@@ -515,14 +470,13 @@ editor_controller_asmfunc5_callback (GtkWidget * self, gpointer data) {
 	pb = gtk_image_get_pixbuf (GTK_IMAGE (image));
 	
 	ht = gdk_pixbuf_get_height (pb);
-	pixel = gdk_pixbuf_get_pixels (pb);
+	pixels = gdk_pixbuf_get_pixels (pb);
 	rowstride = gdk_pixbuf_get_rowstride (pb);
 	
-	asm_fnc5 (pixel, ht, rowstride);
+	asm_fnc5 (pixels, ht, rowstride);
 
 	gtk_image_set_from_pixbuf (GTK_IMAGE (image), pb);
 	
-
 	gtk_widget_hide (editor_window_get_box (EDITOR_WINDOW (window) ) );
 	gtk_widget_show_all (editor_window_get_box (EDITOR_WINDOW (window) ) );
 	

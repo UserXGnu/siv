@@ -17,8 +17,6 @@
 ; with this program.  If not, see <http://www.gnu.org/licenses/>.
 ;/
 
-
-
 [bits 64]
 
 %define RED 	0
