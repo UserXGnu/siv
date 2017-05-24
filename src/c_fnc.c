@@ -7,7 +7,7 @@ c_fnc1 (unsigned char * pixels, int ht, int rowstride) {
 
 	for (int i = 0; i < ht; i++) {
 		for (int j = 0; j < rowstride; j = j + COLOR_CHANNELS) {
-			word_t media = 0;
+			word_t media = 0; // relying on compiler's ability to improve this declaration
 
 			media += RED_LEVEL;
 			media += GREEN_LEVEL;
