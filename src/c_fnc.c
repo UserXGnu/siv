@@ -1,12 +1,6 @@
-#include "definitions.h"
+#include "c_fnc.h"
 
-// rowstride means how mutch bytes there is between the 
-// beginning of a line and the beginning of the next one.
-void c_fnc1 (unsigned char * pixels, int ht, int rowstride);
-void c_fnc2 (unsigned char * pixels, int ht, int rowstride);
-void c_fnc3 (unsigned char * pixels, int ht, int rowstride);
-void c_fnc4 (unsigned char * pixels, int ht, int rowstride);
-void c_fnc5 (unsigned char * pixels, int ht, int rowstride);
+typedef unsigned short int word_t;
 
 void
 c_fnc1 (unsigned char * pixels, int ht, int rowstride) {

@@ -43,15 +43,4 @@
 #define COPYRIGHT		"Copyright © 2017 Victor Flores (UserX)"
 #endif
 
-#ifndef COLOR_CHANNELS 
-#define COLOR_CHANNELS 3
-#endif
-
-#define RED_LEVEL 				(pixels[i*rowstride + j])
-#define GREEN_LEVEL 			(pixels[i*rowstride + j+1])
-#define BLUE_LEVEL 				(pixels[i*rowstride + j+2])
-#define ALPHA_LEVEL 			(pixels[i*rowstride + j+3])
-
-typedef unsigned short int word_t;
-
 #endif /* _DEFINITIONS_H_ */
