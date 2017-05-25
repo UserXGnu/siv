@@ -10,9 +10,12 @@ if [ "$OS" == "arch" ]; then
 	sudo pacman -Syy && sudo pacman -S git gcc nasm make intltool pkg-config gnome-doc-utils devhelp gtk3 gstreamer clutter webkitgtk3 libgda gobject-introspection
 
 elif [ "$OS" == "ubuntu" ]; then
-	su -c 'echo "deb http://us.archive.ubuntu.com/ubuntu xenial main universe" >> /etc/apt/sources.list'
-	sudo apt update && sudo apt install git build-essential gcc nasm pkg-config libgtk-3-dev libgstreamer1.0-dev libclutter-1.0-dev libwebkit2gtk-4.0-dev libgda-5.0-dev libgtk-3-doc gstreamer1.0-doc libclutter-1.0-doc libwebkit2gtk-4.0-doc libgda-5.0-doc 
-
+UN=$(cat /etc/apt/sources.list | grep universe | cut -d " " -f5)
+	if [ "$UN" != "universe" ]; then
+		echo -e "\n\n\n\t\t\tAdding universe repository to sources.list\n\n\n"
+		su -c 'echo "deb http://us.archive.ubuntu.com/ubuntu xenial main universe" >> /etc/apt/sources.list'
+	fi
+	sudo apt update && sudo apt install git build-essential gcc nasm pkg-config libgtk-3-dev libgtk-3-doc
 elif [ "$OS" == "debian" ]; then
 	sudo apt update && sudo apt install git build-essential gcc nasm pkg-config libgtk-3-dev libgtk-3-doc intltool
 fi
