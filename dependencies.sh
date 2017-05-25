@@ -17,16 +17,16 @@ UN=$(cat /etc/apt/sources.list | grep universe | cut -d " " -f5)
 	fi
 	sudo apt update && sudo apt install git build-essential gcc nasm pkg-config libgtk-3-dev libgtk-3-doc
 elif [ "$OS" == "debian" ]; then
-	sudo apt update && sudo apt install git build-essential gcc nasm pkg-config libgtk-3-dev libgtk-3-doc intltool
+	su -c 'apt update && sudo apt install git build-essential gcc nasm pkg-config libgtk-3-dev libgtk-3-doc intltool'
+else
+
+	other_OS=$(echo $OS |grep pretty_name | awk -F "=" '{print $2}' | awk -F "\"" '{ print $2 }' | awk -F " " '{print $1 }')
+	#echo -e "$other_OS"
+
+	if [ "$other_OS" == "debian" ]; then
+		su -c 'apt update && apt install git build-essential gcc nasm pkg-config libgtk-3-dev libgtk-3-doc intltool'
+	fi
 fi
-
-other_OS=$(echo $OS |grep pretty_name | awk -F "=" '{print $2}' | awk -F "\"" '{ print $2 }' | awk -F " " '{print $1 }')
-#echo -e "$other_OS"
-
-if [ "$other_OS" == "debian" ]; then
-	sudo apt update && apt install git build-essential gcc nasm pkg-config libgtk-3-dev libgtk-3-doc intltool
-fi
-
 echo -e "\n\n\n\t\t\tCOMPILING JWASM FROM ORIGINAL REPOS\n\n\n"
 sleep 3
 
