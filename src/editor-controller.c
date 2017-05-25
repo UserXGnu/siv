@@ -3,7 +3,7 @@
  * editor-controller.c
  * Copyright (C) 2017 Victor Flores a.k.a UserX <user_x@riseup.net>
  *
- * png_visualizer is free software: you can redistribute it and/or modify it
+ * This is a free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -76,6 +76,7 @@ editor_controller_open_callback (GtkWidget * self, gpointer data) {
 #endif
 
 	GdkPixbuf * pb = gdk_pixbuf_new_from_file_at_scale (filename, 640, -1, TRUE, NULL);
+	pb = gdk_pixbuf_add_alpha (pb, FALSE, 255, 255, 255);
 	img = gtk_image_new_from_pixbuf (pb);
 	if (filename) {
 		editor_window_set_image (EDITOR_WINDOW (window), img);

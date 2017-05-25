@@ -25,6 +25,8 @@
 %define BLUE 	2
 %define ALPHA 	3
 
+%define COLOR_CHANNELS 0x04
+
 section .data
 	channels dw 3
 
@@ -68,7 +70,7 @@ asm_fnc1:
 		mov 	byte [edi + ecx + BLUE], al
 		mov 	byte [edi + ecx + GREEN], al
 		mov 	byte [edi + ecx + RED], al
-		add 	ecx, 0x3
+		add 	ecx, COLOR_CHANNELS
 		jmp 	.inner_loop
 	
 	.end:

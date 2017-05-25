@@ -3,7 +3,7 @@
  * editor-controller.h
  * Copyright (C) 2017 Victor Flores a.k.a UserX <user_x@riseup.net>
  *
- * png_visualizer is free software: you can redistribute it and/or modify it
+ * This is a free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.

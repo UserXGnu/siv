@@ -19,8 +19,9 @@
 
 
 .data
-	.align 16
-	channels: .word 3
+	.align 0x10
+	channels: .word 0x03
+	color_channels: .word 0x04
 
 .text
 	.global asm_fnc1
@@ -28,6 +29,9 @@
 	.global asm_fnc3
 	.global asm_fnc4
 	.global asm_fnc5
+
+
+#define COLOR_CHANNELS 0x04
 
 //void asm_fnc1 (guchar * pixels, unsigned int lns, unsigned int cols);
 asm_fnc1:
@@ -60,7 +64,7 @@ asm_fnc1:
 		movb 	%al, 2(%rdi, %rcx)
 		movb 	%al, 1(%rdi, %rcx)
 		movb 	%al, 0(%rdi, %rcx)
-		add 	$0x03, %rcx
+		add 	color_channels, %rcx
 		jmp 	.L_1_inner_loop
 	
 	.L_1_end:

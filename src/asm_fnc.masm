@@ -52,6 +52,8 @@ asm_fnc3 proto c pixels: ptr byte, lns: dword, cols: dword
 asm_fnc4 proto c pixels: ptr byte, lns: dword, cols: dword 
 asm_fnc5 proto c pixels: ptr byte, lns: dword, cols: dword 
 
+COLOR_CHANNELS equ 4
+
 .code
 asm_fnc1 proc c uses rbx pixels: ptr byte, lns: dword, cols: dword
 	LOCAL channels: dword
@@ -78,7 +80,7 @@ asm_fnc1 proc c uses rbx pixels: ptr byte, lns: dword, cols: dword
 		mov 	byte ptr [rdi + rcx], al
 		mov 	byte ptr [rdi + rcx + 1], al
 		mov 	byte ptr [rdi + rcx + 2], al
-		add 	ecx, 03h
+		add 	ecx, COLOR_CHANNELS
 	.endw
 
 	fim:

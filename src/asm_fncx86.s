@@ -20,7 +20,7 @@
 .data
 	.align 16
 	channels: .word 3
-
+	color_channels: .word 0x04
 
 .text
 	.global asm_fnc1
@@ -62,7 +62,7 @@ asm_fnc1:
 		movb 	%al, 2(%edi, %ecx)
 		movb 	%al, 1(%edi, %ecx)
 		movb 	%al, 0(%edi, %ecx)
-		add 	$0x03, %ecx
+		add 	color_channels, %ecx
 		jmp 	.L_1_inner_loop
 	
 	.L_1_end:

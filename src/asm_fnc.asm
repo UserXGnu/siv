@@ -19,10 +19,12 @@
 
 [bits 64]
 
-%define RED 	0
-%define GREEN 	1
-%define BLUE 	2
-%define ALPHA 	3
+%define RED 	0x00
+%define GREEN 	0x01
+%define BLUE 	0x02
+%define ALPHA 	0x03
+
+%define COLOR_CHANNELS 0x04
 
 section .data
 	channels dw 3
@@ -65,9 +67,9 @@ asm_fnc1:
 		mov 	byte [rdi + rcx + BLUE], al
 		mov 	byte [rdi + rcx + GREEN], al
 		mov 	byte [rdi + rcx + RED], al
-		add 	rcx, 0x3
+		add 	rcx, COLOR_CHANNELS
 		jmp 	.inner_loop
-	
+
 	.end:
 		pop 	rbx
 		xor 	rax, rax
