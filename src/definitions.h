@@ -63,4 +63,7 @@
 #define COPYRIGHT		"Copyright © 2017 Victor Flores (UserX)"
 #endif
 
+typedef unsigned short int word_t;
+typedef unsigned char byte;
+
 #endif /* _DEFINITIONS_H_ */

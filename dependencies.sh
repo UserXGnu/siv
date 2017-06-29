@@ -14,6 +14,7 @@ UN=$(cat /etc/apt/sources.list | grep universe | cut -d " " -f5)
 	if [ "$UN" != "universe" ]; then
 		echo -e "\n\n\n\t\t\tAdding universe repository to sources.list\n\n\n"
 		su -c 'echo "deb http://us.archive.ubuntu.com/ubuntu xenial main universe" >> /etc/apt/sources.list'
+		sleep 3
 	fi
 	sudo apt update && sudo apt install git build-essential gcc nasm pkg-config libgtk-3-dev libgtk-3-doc
 elif [ "$OS" == "debian" ]; then
