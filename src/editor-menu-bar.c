@@ -36,7 +36,6 @@ struct _EditorMenuBarPrivate {
 	 GtkWidget * AsmFunc4;
 	 GtkWidget * AsmFunc5;
 
-	 GtkWidget * LittleTrick;
 	 
 };
 
@@ -128,7 +127,6 @@ editor_menubar_init (EditorMenuBar * self) {
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (MenuItem), Menu);
 
 	gtk_menu_shell_append (GTK_MENU_SHELL (Menu), self->priv->OpenItem);
-	gtk_menu_shell_append (GTK_MENU_SHELL (Menu), self->priv->AboutItem);
 	gtk_menu_shell_append (GTK_MENU_SHELL (Menu), separator);
 	gtk_menu_shell_append (GTK_MENU_SHELL (Menu), self->priv->ExitItem);
 
@@ -175,9 +173,8 @@ editor_menubar_init (EditorMenuBar * self) {
 	gtk_menu_shell_append (GTK_MENU_SHELL (self), MenuItem);
 
 	Menu = gtk_menu_new ();
-	self->priv->LittleTrick = gtk_menu_item_new_with_mnemonic ("_LittleTrick");
 
-	gtk_menu_shell_append (GTK_MENU_SHELL (self), self->priv->LittleTrick);
+	gtk_menu_shell_append (GTK_MENU_SHELL (self), self->priv->AboutItem);
 	
 	
 }

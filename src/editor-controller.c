@@ -137,7 +137,7 @@ editor_controller_about_dialog_callback (GtkWidget * widget, gpointer data) {
 
 	/************************************************************************************
 	 * 									C CALLBACKS DEV									*
-	 ************************************************************************************/
+	 ************************************************************************************/ 
 void
 editor_controller_cfunc1_callback (GtkWidget * self, gpointer data) {
 	GtkWidget * window;
