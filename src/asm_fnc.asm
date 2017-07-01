@@ -80,6 +80,36 @@ asm_fnc1:
 asm_fnc2:
 	push 	rbp
 	mov 	rbp, rsp
+	
+	mov 	rax, rdx
+	mul 	rsi
+	
+	push 	rax
+	sub 	rsp, rax
+
+	xor 	rdx, rdx
+	mov 	rsi, 0x04
+	div 	rsi
+
+	xor 	rdx, rdx
+	mov 	rcx, rax
+	
+	mov 	rsi, rsp
+	.invert:
+		mov 	eax, dword [rdi + rcx * 4]
+		mov 	dword [rsi + rdx * 4], eax
+		inc 	rdx
+		loop 	.invert 
+
+	mov 	rcx, qword [rbp-0x08]
+	xor 	rdx, rdx
+	xor 	rax, rax 
+
+	.cpy:
+		mov 	al, byte [rsi + rdx * 1]
+		mov 	byte [rdi + rdx * 1], al
+		inc 	rdx
+		loop 	.cpy
 
 	.end:
 		mov 	rsp, rbp
