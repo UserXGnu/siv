@@ -5,13 +5,13 @@ all:masm86
 masm86:
 	make -C $(SRC) masm86
 
-masm: 
+masm:
 	make -C $(SRC) masm
 
 nasm86:
 	make -C $(SRC) nasm86
 
-nasm: 
+nasm:
 	make -C $(SRC) nasm
 
 gnuasm86:
@@ -20,6 +20,6 @@ gnuasm86:
 gnuasm:
 	make -C $(SRC) gnuasm
 
-clean: 
+clean:
 	make -C $(SRC) clean
-	
+

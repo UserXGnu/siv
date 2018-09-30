@@ -1,0 +1,145 @@
+     1                                  ; -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
+     2                                  ;
+     3                                  ; asm_fnc.asm
+     4                                  ; Copyright (C) 2017 Victor Flores a.k.a UserX <user_x@riseup.net>
+     5                                  ;
+     6                                  ; asm_fnc.asm is part of a free software: you can redistribute it and/or modify it
+     7                                  ; under the terms of the GNU General Public License as published by the
+     8                                  ; Free Software Foundation, either version 3 of the License, or
+     9                                  ; (at your option) any later version.
+    10                                  ;
+    11                                  ; png_visualizer is distributed in the hope that it will be useful, but
+    12                                  ; WITHOUT ANY WARRANTY; without even the implied warranty of
+    13                                  ; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    14                                  ; See the GNU General Public License for more details.
+    15                                  ;
+    16                                  ; You should have received a copy of the GNU General Public License along
+    17                                  ; with this program.  If not, see <http://www.gnu.org/licenses/>.
+    18                                  ;/
+    19                                  
+    20                                  [bits 64]
+    21                                  [default rel]
+    22                                  
+    23                                  %define RED 	0x00
+    24                                  %define GREEN 	0x01
+    25                                  %define BLUE 	0x02
+    26                                  %define ALPHA 	0x03
+    27                                  
+    28                                  %define COLOR_CHANNELS 0x04
+    29                                  
+    30                                  section .data
+    31 00000000 0300                    	channels dw 3
+    32                                  
+    33                                  section .text
+    34                                  	global asm_fnc1
+    35                                  	global asm_fnc2
+    36                                  	global asm_fnc3
+    37                                  	global asm_fnc4
+    38                                  	global asm_fnc5
+    39                                  
+    40                                  ;void asm_fnc1 (guchar * pixels, unsigned int lns, unsigned int cols);
+    41                                  asm_fnc1:
+    42 00000000 55                      	push 	rbp
+    43 00000001 4889E5                  	mov 	rbp, rsp
+    44                                  
+    45 00000004 53                      	push 	rbx
+    46                                  
+    47 00000005 4889D0                  	mov 	rax, rdx
+    48 00000008 48F7E6                  	mul 	rsi
+    49 0000000B 703E                    	jo 		.end
+    50                                  
+    51 0000000D 4889C3                  	mov 	rbx, rax
+    52                                  
+    53 00000010 4831D2                  	xor 	rdx, rdx
+    54 00000013 4831C9                  	xor 	rcx, rcx
+    55                                  
+    56 00000016 488B35(00000000)        	mov 	rsi, [channels]
+    57                                  	.inner_loop:
+    58 0000001D 4839D9                  		cmp 	rcx, rbx
+    59 00000020 7D29                    		jge 	.end
+    60 00000022 0FB6440F02              		movzx 	eax, byte [rdi + rcx + BLUE]
+    61 00000027 0FB6540F01              		movzx 	edx, byte [rdi + rcx + GREEN]
+    62 0000002C 01D0                    		add 	eax, edx
+    63 0000002E 0FB6140F                		movzx 	edx, byte [rdi + rcx + RED]
+    64 00000032 01D0                    		add 	eax, edx
+    65 00000034 4831D2                  		xor 	rdx, rdx
+    66 00000037 66F7F6                  		div 	si
+    67                                  
+    68 0000003A 88440F02                		mov 	byte [rdi + rcx + BLUE], al
+    69 0000003E 88440F01                		mov 	byte [rdi + rcx + GREEN], al
+    70 00000042 88040F                  		mov 	byte [rdi + rcx + RED], al
+    71 00000045 4883C104                		add 	rcx, COLOR_CHANNELS
+    72 00000049 EBD2                    		jmp 	.inner_loop
+    73                                  
+    74                                  	.end:
+    75 0000004B 5B                      		pop 	rbx
+    76 0000004C 4831C0                  		xor 	rax, rax
+    77 0000004F 4889EC                  		mov 	rsp, rbp
+    78 00000052 5D                      		pop 	rbp
+    79 00000053 C3                      		ret
+    80                                  
+    81                                  asm_fnc2:
+    82 00000054 55                      	push 	rbp
+    83 00000055 4889E5                  	mov 	rbp, rsp
+    84                                  
+    85 00000058 4889D0                  	mov 	rax, rdx
+    86 0000005B 48F7E6                  	mul 	rsi
+    87                                  
+    88 0000005E 50                      	push 	rax
+    89 0000005F 4829C4                  	sub 	rsp, rax
+    90                                  
+    91 00000062 4831D2                  	xor 	rdx, rdx
+    92 00000065 BE04000000              	mov 	rsi, 0x04
+    93 0000006A 48F7F6                  	div 	rsi
+    94                                  
+    95 0000006D 4831D2                  	xor 	rdx, rdx
+    96 00000070 4889C1                  	mov 	rcx, rax
+    97                                  
+    98 00000073 4889E6                  	mov 	rsi, rsp
+    99                                  	.invert:
+   100 00000076 8B048F                  		mov 	eax, dword [rdi + rcx * 4]
+   101 00000079 890496                  		mov 	dword [rsi + rdx * 4], eax
+   102 0000007C 48FFC2                  		inc 	rdx
+   103 0000007F E2F5                    		loop 	.invert
+   104                                  
+   105 00000081 488B4DF8                	mov 	rcx, qword [rbp-0x08]
+   106 00000085 4831D2                  	xor 	rdx, rdx
+   107 00000088 4831C0                  	xor 	rax, rax
+   108                                  
+   109                                  	.cpy:
+   110 0000008B 8A0416                  		mov 	al, byte [rsi + rdx * 1]
+   111 0000008E 880417                  		mov 	byte [rdi + rdx * 1], al
+   112 00000091 48FFC2                  		inc 	rdx
+   113 00000094 E2F5                    		loop 	.cpy
+   114                                  
+   115                                  	.end:
+   116 00000096 4889EC                  		mov 	rsp, rbp
+   117 00000099 5D                      		pop 	rbp
+   118 0000009A C3                      		ret
+   119                                  
+   120                                  asm_fnc3:
+   121 0000009B 55                      	push 	rbp
+   122 0000009C 4889E5                  	mov 	rbp, rsp
+   123                                  
+   124                                  	.end:
+   125 0000009F 4889EC                  		mov 	rsp, rbp
+   126 000000A2 5D                      		pop 	rbp
+   127 000000A3 C3                      		ret
+   128                                  
+   129                                  asm_fnc4:
+   130 000000A4 55                      	push 	rbp
+   131 000000A5 4889E5                  	mov 	rbp, rsp
+   132                                  
+   133                                  	.end:
+   134 000000A8 4889EC                  		mov 	rsp, rbp
+   135 000000AB 5D                      		pop 	rbp
+   136 000000AC C3                      		ret
+   137                                  
+   138                                  asm_fnc5:
+   139 000000AD 55                      	push 	rbp
+   140 000000AE 4889E5                  	mov 	rbp, rsp
+   141                                  
+   142                                  	.end:
+   143 000000B1 4889EC                  		mov 	rsp, rbp
+   144 000000B4 5D                      		pop 	rbp
+   145 000000B5 C3                      		ret

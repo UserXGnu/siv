@@ -7,17 +7,18 @@
 ; under the terms of the GNU General Public License as published by the
 ; Free Software Foundation, either version 3 of the License, or
 ; (at your option) any later version.
-; 
+;
 ; png_visualizer is distributed in the hope that it will be useful, but
 ; WITHOUT ANY WARRANTY; without even the implied warranty of
 ; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 ; See the GNU General Public License for more details.
-; 
+;
 ; You should have received a copy of the GNU General Public License along
 ; with this program.  If not, see <http://www.gnu.org/licenses/>.
 ;/
 
 [bits 64]
+[default rel]
 
 %define RED 	0x00
 %define GREEN 	0x01
@@ -40,7 +41,7 @@ section .text
 asm_fnc1:
 	push 	rbp
 	mov 	rbp, rsp
-	
+
 	push 	rbx
 
 	mov 	rax, rdx
@@ -48,7 +49,7 @@ asm_fnc1:
 	jo 		.end
 
 	mov 	rbx, rax
-	
+
 	xor 	rdx, rdx
 	xor 	rcx, rcx
 
@@ -80,10 +81,10 @@ asm_fnc1:
 asm_fnc2:
 	push 	rbp
 	mov 	rbp, rsp
-	
+
 	mov 	rax, rdx
 	mul 	rsi
-	
+
 	push 	rax
 	sub 	rsp, rax
 
@@ -93,17 +94,17 @@ asm_fnc2:
 
 	xor 	rdx, rdx
 	mov 	rcx, rax
-	
+
 	mov 	rsi, rsp
 	.invert:
 		mov 	eax, dword [rdi + rcx * 4]
 		mov 	dword [rsi + rdx * 4], eax
 		inc 	rdx
-		loop 	.invert 
+		loop 	.invert
 
 	mov 	rcx, qword [rbp-0x08]
 	xor 	rdx, rdx
-	xor 	rax, rax 
+	xor 	rax, rax
 
 	.cpy:
 		mov 	al, byte [rsi + rdx * 1]
@@ -133,7 +134,7 @@ asm_fnc4:
 		mov 	rsp, rbp
 		pop 	rbp
 		ret
-		
+
 asm_fnc5:
 	push 	rbp
 	mov 	rbp, rsp
