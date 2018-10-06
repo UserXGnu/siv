@@ -22,4 +22,3 @@ gnuasm:
 
 clean:
 	make -C $(SRC) clean
-
